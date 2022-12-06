@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static serializer_object_list %}
+
+{% block title %}{{ titulo }}{% endblock %}
+
+{% block styles %}
+    <link href="{% static 'general/bootstrap-sweetalert/sweetalert.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+{% block content %}
+
+    <div class="kt-portlet kt-portlet--mobile">
+        <div class="kt-portlet__head kt-portlet__head--lg">
+
+            {% include 'tablas/titulo_tabla_listado.html' %}
+
+            {% if perms.nomencladores.add_subcategoria %}
+                <div class="kt-portlet__head-toolbar">
+                    <div class="kt-portlet__head-wrapper">
+                        <div class="kt-portlet__head-actions">
+                            <a href="{% url 'registrar_sub_categoria' %}" style="margin-right: 5px"
+                               class="btn btn-brand btn-elevate btn-icon-sm kt-margin-5-tablet-and-mobile">
+                                <i class="la la-plus"></i> Registrar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="kt-portlet__body">
+            {% include 'sub_categoria/filtrar_sub_categoria.html' %}
+        </div>
+
+        <div class="kt-portlet__body">
+
+            <div class="kt-datatable" id="local_data"
+                 data-subs_categoria="{{ object_list|serializer_subs_categoria }}"
+                 data-modificar_sub_categoria="{{ perms.nomencladores.change_subcategoria }}"
+                 data-deshabilitar_sub_categoria="{{ perms.nomencladores.disable_subcategoria }}"
+                 data-habilitar_sub_categoria="{{ perms.nomencladores.enable_subcategoria }}">
+            </div>
+
+            {% include 'tablas/paginado.html' %}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'js/tablas/nomencladores/listado_subs_categoria.js' %}" type="text/javascript"></script>
+    <script src="{% static 'general/block-ui/jquery.blockUI.js' %}" type="text/javascript"></script>
+    <script src="{% static 'general/bootstrap-sweetalert/sweetalert.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'general/vendors/js/ui-sweetalert.min.js' %}" type="text/javascript"></script>
+{% endblock %}

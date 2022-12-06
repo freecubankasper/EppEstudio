@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ titulo }}{% endblock %}
+
+
+{% block content %}
+
+    <div class="col-lg-6 col-md-12 col-sm-8 kt-block-center">
+
+        <div class="kt-portlet ">
+            <div class="kt-portlet__head  kt-portlet__head--noborder">
+                <div class="kt-portlet__head-label">
+                    <h3 class="kt-portlet__head-title"></h3>
+                </div>
+            </div>
+            <div class="kt-portlet__body kt-portlet__body--fit-y">
+
+                <div class="kt-widget kt-widget--user-profile-1">
+                    <div class="kt-widget__head">
+                        <div class="kt-widget__media">
+                            {% if object.img_usuario %}
+                                <img class="" alt="Avatar" src="{{ MEDIA_URL }}{{ object.img_usuario }}" />
+                            {% else %}
+                                <img class="" alt="Avatar" src="{% static 'img/img_user_default.jpg' %}" />
+                            {% endif %}
+                        </div>
+                        <div class="kt-widget__content">
+                            <div class="kt-widget__section">
+                                <a href="#" class="kt-widget__username">
+                                    {% if object.first_name != "" %}
+                                        {{ object.fullname }}
+                                    {% else %}
+                                        {{ object.username }}
+                                    {% endif %}
+                                </a>
+
+                                    {% if object.is_active %}
+                                        <i class="flaticon2-correct kt-font-success" style="padding-left: 5px"
+                                           data-toggle="kt-tooltip" title="" data-placement="right" data-original-title="Habilitado"></i>
+                                    {% else %}
+                                        <i class="flaticon2-correct kt-font-danger"
+                                           data-toggle="kt-tooltip" title="" data-placement="right" data-original-title="Deshabilitado"></i>
+                                    {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kt-widget__body">
+                        <div class="kt-widget__content">
+                            <div class="kt-widget__info">
+                                <span class="kt-widget__label">Nombre de usuario:</span>
+                                <span class="kt-widget__data">{{ object.username }}</span>
+                            </div>
+                            <div class="kt-widget__info">
+                                <span class="kt-widget__label">Correo:</span>
+                                <span class="kt-widget__data">{{ object.email }}</span>
+                            </div>
+                            {% if object.telefono %}
+                                <div class="kt-widget__info">
+                                    <span class="kt-widget__label">Teléfono:</span>
+                                    <span class="kt-widget__data">{{ object.telefono }}</span>
+                                </div>
+                            {% endif %}
+                            <div class="kt-widget__info">
+                                <span class="kt-widget__label">Grupo de usuario:</span>
+                                <span class="kt-widget__data">{{ user.groups.all|join:'|' }}</span>
+                            </div>
+                            {% if object.organismo %}
+                                <div class="kt-widget__info">
+                                    <span class="kt-widget__label">Organismo:</span>
+                                    <span class="kt-widget__data">{{ object.organismo }}</span>
+                                </div>
+                            {% endif %}
+                            {% if object.provincia %}
+                                <div class="kt-widget__info">
+                                    <span class="kt-widget__label">Provincia:</span>
+                                    <span class="kt-widget__data">{{ object.provincia }}</span>
+                                </div>
+                            {% endif %}
+                            {% if object.municipio %}
+                                <div class="kt-widget__info">
+                                    <span class="kt-widget__label">Municipio:</span>
+                                    <span class="kt-widget__data">{{ object.municipio }}</span>
+                                </div>
+                            {% endif %}
+                            {% if object.entidad %}
+                                <div class="kt-widget__info">
+                                    <span class="kt-widget__label">Entidad:</span>
+                                    <span class="kt-widget__data">{{ object.entidad }}</span>
+                                </div>
+                            {% endif %}
+
+                            <div class="kt-widget__info">
+                                <span class="kt-widget__label">Estado:</span>
+                                <span class="kt-widget__data">Usuario {% if object.is_active %}habilitado{% else %}deshabilitado{% endif %}</span>
+                            </div>
+                            <div class="kt-widget__info">
+                                <span class="kt-widget__label">Fecha de registro:</span>
+                                <span class="kt-widget__data">{{ object.fecha_registro }}</span>
+                            </div>
+                            <div class="kt-widget__info">
+                                <span class="kt-widget__label">Fecha de actualización:</span>
+                                <span class="kt-widget__data">{{ object.fecha_actualizacion }}</span>
+                            </div>
+                            {% if object.fecha_actualizacion_password %}
+                                <div class="kt-widget__info">
+                                    <span class="kt-widget__label">Fecha de actualización de la contraseña:</span>
+                                    <span class="kt-widget__data">{{ object.fecha_actualizacion_password }}</span>
+                                </div>
+                            {% endif %}
+                            {% if object.fecha_deshabilitacion %}
+                                <div class="kt-widget__info">
+                                    <span class="kt-widget__label">Fecha de deshabilitación:</span>
+                                    <span class="kt-widget__data">{{ object.fecha_deshabilitacion }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="kt-widget__items">
+                            {% if perms.usuario.change_user %}
+                                <button type="button" class="btn btn-outline-brand" style="width: 100%"
+                                        onclick="window.location.href='../../modificar/{{ object.id }}'">
+                                        <i class="fa fa-edit"></i> Modificar Perfil
+                                </button>
+                            {% endif %}
+
+                            {% if object != request.user %}
+                                {% if perms.usuario.change_contraseña %}
+                                    <button type="button" class="btn btn-outline-brand" style="width: 100%; margin-top: 5px"
+                                            onclick="window.location.href='../../modificar_contrasena/{{ object.id }}'">
+                                            <i class="fa fa-key"></i> Cambiar contraseña
+                                    </button>
+                                {% endif %}
+                            {% else %}
+                                {% if perms.usuario.change_contraseña_usuario_actual %}
+                                    <button type="button" class="btn btn-outline-brand" style="width: 100%; margin-top: 5px"
+                                            onclick="window.location.href='../../modificar_contrasena_usuario_actual/{{ object.id }}'">
+                                            <i class="fa fa-key"></i> Cambiar contraseña
+                                    </button>
+                                {% endif %}
+                            {% endif %}
+
+                            {% if object != request.user %}
+                                <button type="button" class="btn btn-outline-brand" style="width: 100%; margin-top: 5px"
+                                        onclick="alert('Opción en desarrollo...')">
+                                        <i class="fa fa-envelope"></i> Enviar mensaje
+                                </button>
+                            {% endif %}
+
+                            <button type="button" class="btn btn-outline-brand" style="width: 100%; margin-top: 5px"
+                                    onclick="window.location.href='../../'">
+                                    <i class="la la-long-arrow-left"></i> Ir atrás
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

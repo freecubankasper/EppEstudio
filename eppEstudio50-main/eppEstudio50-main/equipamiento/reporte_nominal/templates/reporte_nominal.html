@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% load static serializer_object_list %}
+
+{% block title %}{{ titulo }}{% endblock %}
+
+{% block styles %}
+    <link href="{% static 'general/bootstrap-sweetalert/sweetalert.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+{% block content %}
+
+    <div class="kt-portlet kt-portlet--mobile">
+        <div class="kt-portlet__head kt-portlet__head--lg">
+            {% include 'tablas/titulo_tabla_listado.html' %}
+        </div>
+
+        <div class="kt-portlet__body">
+            <div class="kt-list-timeline">
+                <div class="kt-list-timeline__items">
+                    <div class="kt-list-timeline__item">
+                        <span class="kt-list-timeline__badge"></span>
+                        <span class="kt-list-timeline__text">
+                            {% if perms.equipo_proteccion_personal.view_reporte_equipo_proteccion_personal_registrado %}
+                                <a href="{% url 'reportes_equipo_proteccion_personal_registrado' %}" class="kt-link" style="color: #6c7293">
+                                    Reporte Proyectos Registrados
+                                </a>
+                            {% endif %}
+                        </span>
+                    </div>
+                    <div class="kt-list-timeline__item">
+                        <span class="kt-list-timeline__badge"></span>
+                        <span class="kt-list-timeline__text">
+                            {% if perms.equipo_proteccion_personal.view_reporte_equipo_proteccion_personal_aprobado %}
+                                <a href="{% url 'reportes_equipo_proteccion_personal_aprobado' %}" class="kt-link" style="color: #6c7293">
+                                    Reporte Proyectos Aprobados
+                                </a>
+                            {% endif %}
+                        </span>
+                    </div>
+                    <div class="kt-list-timeline__item">
+                        <span class="kt-list-timeline__badge"></span>
+                        <span class="kt-list-timeline__text">
+                            {% if perms.equipo_proteccion_personal.view_reporte_equipo_proteccion_personal_vencido %}
+                                <a href="{% url 'reportes_equipo_proteccion_personal_vencido' %}" class="kt-link" style="color: #6c7293">
+                                    Reporte Equipos Registrados
+                                </a>
+                            {% endif %}
+                        </span>
+                    </div>
+                    <div class="kt-list-timeline__item">
+                        <span class="kt-list-timeline__badge"></span>
+                        <span class="kt-list-timeline__text">
+                            {% if perms.nomencladores.view_reporte_entidad %}
+                                <a href="{% url 'reportes_entidad' %}" class="kt-link" style="color: #6c7293">
+                                    Reporte Usuarios
+                                </a>
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'general/block-ui/jquery.blockUI.js' %}" type="text/javascript"></script>
+    <script src="{% static 'general/bootstrap-sweetalert/sweetalert.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'general/vendors/js/ui-sweetalert.min.js' %}" type="text/javascript"></script>
+{% endblock %}

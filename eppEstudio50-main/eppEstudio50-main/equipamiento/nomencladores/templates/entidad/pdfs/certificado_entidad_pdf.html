@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<style>
+
+    .logo {
+        width: 110px;
+        height: 95px;
+        margin-top: 10pt;
+    }
+
+    #invoice thead tr th {
+        text-align: left;
+        border-bottom: 1px solid black;
+        border-top: 1px solid black;
+        padding-top: 4px;
+    }
+
+    #invoice thead tr {
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    #invoice tbody tr {
+        padding: 0;
+    }
+
+</style>
+<body>
+<div id="header_content">
+    <img class="logo" src="data:image/png;base64,{{ header }}" alt="Logo">
+    <h1 style="text-align: center">{{ subtitle }}</h1>
+</div>
+<div id="content_content">
+    <table style="border: 1px solid black;">
+        <tr>
+            <td style="height: 680px; width: 800px">
+                <div style="height: 680px; width: 800px">
+                    <p style="text-align: center; vertical-align: top; font-size: 120%"><strong>{{ title }}</strong></p>
+                    <p style="text-align: left; vertical-align: top; padding-left: 15px; padding-top: 15px; padding-right: 25px; font-size: 120%"><strong>Expediente No. </strong><u>{{ entidad.id }}</u></p>
+                    <p style="text-align: left; vertical-align: top; padding-left: 15px; padding-top: 15px; padding-right: 25px; font-size: 120%"><strong>Número de Contrato: </strong><u>{% if entidad.num_contrato %}{{ entidad.num_contrato }}{% endif %}</u></p>
+                    <p style="text-align: left; vertical-align: top; padding-left: 15px; padding-top: 15px; padding-right: 25px; font-size: 120%"><strong>La Entidad: </strong><u>{{ entidad.nombre }}</u></p>
+                    <p style="text-align: left; vertical-align: top; padding-left: 15px; padding-top: 15px; padding-right: 25px; font-size: 120%"><strong>Código REEUP: </strong>{% if entidad.cod_reeup %}<u>{{ entidad.cod_reeup }}</u>{% else %}{% endif %}</p>
+                    <p style="text-align: left; vertical-align: top; padding-left: 15px; padding-top: 15px; padding-right: 25px; font-size: 120%"><strong>Licencia Comercial: </strong>{% if entidad.num_lic_comercial_camara_comercio %}<u>{{ entidad.num_lic_comercial_camara_comercio }}</u>{% else %}{% endif %}</p>
+                    <p style="text-align: left; vertical-align: top; padding-left: 15px; padding-top: 15px; padding-right: 25px; font-size: 120%"><strong>Acta de Protocolización: </strong>{% if entidad.num_acta_protocolizacion %}<u>{{ entidad.num_acta_protocolizacion }}</u>{% else %}{% endif %}</p>
+                    <p style="text-align: left; vertical-align: top; padding-left: 15px; padding-top: 15px; padding-right: 25px; font-size: 120%"><strong>Representada por: </strong><u>{{ entidad.nombre_representante }}</u></p>
+                    <p style="text-align: left; vertical-align: top; padding-left: 15px; padding-top: 15px; padding-right: 25px; font-size: 120%"><strong>ha quedado registrada como: </strong><u>{{ entidad.tipo_entidad.all|join:'|' }}</u></p>
+                    <p style="text-align: left; vertical-align: top; padding-left: 15px; padding-top: 15px; padding-right: 25px; font-size: 120%"><strong>de los Equipos de Protección Personal con el número de Registro arriba señalado, válido para la circulación de los citados en el territorio nacional, debiendo cumplir lo establecido con este fin en la legislación nacional vigente.</strong></p>
+                    <p style="text-align: left; vertical-align: top; padding-left: 15px; padding-top: 15px; padding-right: 25px; font-size: 120%"><strong>El presente documento no sustituye el certificado de Registros y Aprobación de los Equipos a los fines de su comercialización.</strong></p>
+                    <p style="text-align: left; vertical-align: top; padding-left: 15px; padding-top: 15px; padding-right: 25px; font-size: 120%">Ciudad de La Habana, {{ dia }}, {{fecha_actual}}</p>
+                    <p style="text-align: center; vertical-align: top; padding-top: 20px"><strong>______________________________________</strong></p>
+                    <p style="text-align: center; vertical-align: top; padding-top: 1px"><strong>Jefe de Centro de Certificación de los Equipos de Protección Personal</strong></p>
+                </div>
+            </td>
+
+        </tr>
+    </table>
+</div>
+</body>
+</html>

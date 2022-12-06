@@ -1,0 +1,100 @@
+{% extends 'evento_proyecto/form_evento_proyecto_calendario.html' %}
+{% load static %}
+{% load bootstrap %}
+<div class="tab-pane show active" id="tab_3_2_content">
+{% block evento_equipamiento_calendario %}
+    <div class="modal fade c-content-login-form" id="evento-form" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content c-square">
+            <div class="modal-header c-no-border">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <img src="{% static 'assets/base/img/layout/logos/logo-5negrohabana.png'%}" alt="Estudio50Habana" class="c-desktop-logo" style="max-height: 65px;">
+                <br>
+                <br>
+{#                <h3 class="c-font-24 c-font-sbold" style="color: #666;">Create your project</h3>#}
+                <p style="color: #666;">Please fill out the form below so we can start building your project</p>
+                <form class="kt-form" method="post" id="form_proyecto" action="{% url 'registrar_evento_equipamiento_llamado' llamado_id%}">{% csrf_token %}
+                    <input type="text" style="display: none" name="documento_seleccionado" id="documento_seleccionado_id">
+                    <div class="form-group" >
+                        <label for="id_evento_nombre" style="font-size: medium">Name <h6 style="color: red;display: inline">*</h6></label>
+                        <input type="text" id="id_evento_nombre" name="evento_nombre" class="form-control input-lg c-square" placeholder="Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_evento_cantidad" style="font-size: medium">Cant <h6 style="color: red;display: inline">*</h6></label>
+                        <input type="text" id="id_evento_cantidad" name="proyecto_cantidad" class="form-control input-lg c-square" placeholder="Cant">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_evento_descripcion" style="font-size: medium">Description <h6 style="color: red;display: inline">*</h6></label>
+                        <input type="text" id="id_evento_descripcion" name="evento_descripcion" class="form-control input-lg c-square" placeholder="Desc">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_fecha_inicio" style="font-size: medium">Start Date <h6 style="color: red;display: inline">*</h6></label>
+                        <input type="date" class="form-control input-lg c-square" name="id_fecha_inicio" id="id_fecha_inicio" placeholder="Start Date">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_fecha_fin" style="font-size: medium">End Date <h6 style="color: red;display: inline">*</h6></label>
+                        <input type="date" class="form-control input-lg c-square" name="id_fecha_fin" id="id_fecha_fin" placeholder="End Date">
+                    </div>
+                <br>
+                        <button type="submit" class="btn c-theme-btn btn-md   c-btn-square c-btn-login" style="background: white;color: black;border-color: black;">Add to your call</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="c-layout-sidebar-menu c-theme ">
+        <ul class="c-shop-filter-search-1 list-unstyled">
+            <li>
+                <form method="GET">
+                    {{ equipamientos.form | bootstrap}}
+                    <button type="submit" class="c-btn-icon c-btn-square c-font-sbold"><span class="glyphicon glyphicon-search"></span>Buscar </button>
+                </form>
+            </li>
+        </ul>
+    </div>
+    <div class="c-layout-sidebar-content ">
+    <div class="c-content-box c-size-xg c-bg-white" >
+		<div class="c-content-isotope-grid c-opt-4">
+            {% for documento in equipamientos.qs %}
+			<div class="c-content-isotope-item col-xl-4 col-md-4 col-lg-4">
+				<div class="c-content-isotope-image-container">
+					<img class="c-content-isotope-image" style="height: 200px" src="/media/{{ documento.equipamiento_img }}"/>
+                    <span class="c-font-black" style="display: block;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;white-space: nowrap;
+  display: inline-block;">{{ documento.nombre }}</span>
+                    <br>
+                    {% if documento.precio_mlc is not None %}<span>{{ documento.precio_mlc }} EUR</span>{% endif %}
+                <br>
+                <div class="row center">
+                    <div class="col-xl-6 col-md-6 col-lg-6 col-sm-6">
+                    <button href="#id_modal_generico_mediano" data-toggle="modal"
+                                       id="detalles_cont_fa_{{ element.id }}" onclick="crear_modal__detalles_equipamiento({{ documento.id }});"class="btn btn-default c-btn-uppercase c-btn-bold"><i class="glyphicon glyphicon-eye-open"></i>Detail</button>
+                    </div>
+                                        <div class="col-xl-6 col-md-6 col-lg-6 col-sm-6">
+                        <button onclick="mostrar_modal_adicionar_producto({{ documento.id }});"class="btn btn-default c-btn-uppercase c-btn-bold"><i class="glyphicon glyphicon-plus"></i>Add</button>
+                                        </div></div>
+                                <br>                <br>
+
+
+
+
+
+
+				</div>
+			</div>
+            {% endfor %}
+
+				</div>
+
+
+
+</div></div>
+{% endblock %}
+                    </div>

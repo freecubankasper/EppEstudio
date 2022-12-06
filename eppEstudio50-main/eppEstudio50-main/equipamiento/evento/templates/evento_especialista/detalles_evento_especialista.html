@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ titulo }}{% endblock %}
+
+{% block styles %}
+    <link href="{% static 'general/bootstrap-sweetalert/sweetalert.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+{% block content %}
+    <!DOCTYPE html>
+    <html>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style>
+        #contenedor {
+            word-wrap: break-word;
+        }
+    </style>
+
+    <div class="kt-portlet kt-portlet--mobile col-lg-10 col-md-10 col-sm-12 kt-block-center">
+        <div class="kt-portlet__head kt-portlet__head--lg">
+            <div class="kt-portlet__head-label">
+                <span class="kt-portlet__head-icon">
+                    <i class='la la-search'></i>
+                </span>
+                <h3 class="kt-portlet__head-title">
+                    {{ titulo_tabla }}
+                </h3>
+            </div>
+            <div class="kt-portlet__head-toolbar">
+                <div class="kt-portlet__head-wrapper">
+                    <div class="dropdown dropdown-inline">
+                        <button type="button" class="btn btn-default btn-icon-sm dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                            <i class="la la-gears"></i> Opciones
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-left">
+                            <ul class="kt-nav">
+                                <li class="kt-nav__item">
+                                    {% if perms.evento.change_eventoespecialista %}
+                                        <a href="{% url 'modificar_evento_especialista' especialista_id object.id %}?from_detalles=True"
+                                           class="dropdown-item ">
+                                            <i class="kt-nav__link-icon la la-edit"></i>
+                                            <span class="kt-nav__link-text">Editar</span>
+                                        </a>
+                                    {% endif %}
+                                </li>
+                                {% if object.activo == True %}
+                                    <li class="kt-nav__item">
+                                        {% if perms.evento.disable_eventoespecialista %}
+                                            <a href="javascript:;" class="dropdown-item"
+                                               onclick="mostrar_confirmacion_deshabilitar({{ object.id }})"
+                                               data-texto="el evento seleccionado"
+                                               data-href="{% url 'deshabilitar_evento_especialista' especialista_id object.id %}"
+                                               id="btn_deshabilitar_{{ object.id }}">
+                                                <i class="kt-nav__link-icon la la-remove"></i>
+                                                <span class="kt-nav__link-text">Deshabilitar</span>
+                                            </a>
+                                        {% endif %}
+                                    </li>
+                                {% else %}
+                                    <li class="kt-nav__item">
+                                        {% if perms.evento.enable_eventoespecialista %}
+                                            <a href="javascript:;" class="dropdown-item"
+                                               onclick="mostrar_confirmacion_habilitar({{ object.id }})"
+                                               data-texto="el evento seleccionado"
+                                               data-href="{% url 'habilitar_evento_especialista' especialista_id object.id %}"
+                                               id="btn_habilitar_{{ object.id }}">
+                                                <i class="kt-nav__link-icon la la-check"></i>
+                                                <span class="kt-nav__link-text">Habilitar</span>
+                                            </a>
+                                        {% endif %}
+                                    </li>
+                                {% endif %}
+                                {#                                <li class="kt-nav__item">#}
+                                {#                                    {% if perms.evento.delete_eventoespecialista %}#}
+                                {#                                       <a href="javascript:;" class="dropdown-item" onclick="mostrar_confirmacion_eliminar({{ object.id }})"#}
+                                {#                                          data-texto="el evento seleccionado" data-href="{% url 'eliminar_evento_especialista' especialista_id object.id %}"#}
+                                {#                                          id="btn_eliminar_{{ object.id }}">#}
+                                {#                                           <i class="kt-nav__link-icon la la-trash"></i>#}
+                                {#                                           <span class="kt-nav__link-text">Eliminar</span>#}
+                                {#                                       </a>#}
+                                {#                                    {% endif %}#}
+                                {#                                </li>#}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="kt-portlet__body">
+            <div class="row">
+                <div id="contenedor" class="col-xl-6 col-md-6 " style="padding: 1px;">
+                    <p><strong>Título:</strong> {{ object.titulo }}</p>
+                    <p><strong>Especialista:</strong> {{ object.especialista.primer_nombre }}{% if object.especialista.segundo_nombre %}
+                        {{ object.especialista.segundo_nombre }}{% endif %} {{ object.especialista.primer_apellido }} {{ object.especialista.segundo_apellido }}
+                    </p>
+                    <p><strong>Descripción:</strong> {{ object.descripcion }}</p>
+                    <p><strong>Fecha de inicio:</strong> {{ object.fecha_inicio_evento }}</p>
+                    <p><strong>Fecha de finalización:</strong> {{ object.fecha_fin_evento }}</p>
+                    <p><strong>Estado: </strong>
+                        <span style="width: 145px;">
+                           <span class="kt-widget__data">{% if object.activo == True %}habilitado{% else %}
+                               deshabilitado{% endif %}</span>
+                       </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="kt-portlet__foot">
+            <div class="kt-portlet__foot--sm" style="display: inline-block">
+                <h1 style="font-size: 120%">Fecha de registro: <small>{{ object.fecha_registro }}</small></h1>
+                <h1 style="font-size: 120%">Fecha de la última actualización:
+                    <small>{{ object.fecha_actualizacion }}</small></h1>
+            </div>
+            <div style="display: inline-block; float: right">
+                <a class="btn btn-brand btn-default btn-icon-sm kt-margin-5-tablet-and-mobile" style="width: 118px"
+                   title="Ir atrás" href="{% url 'eventos_especialista' especialista_id %}">
+                    <i class="la la-arrow-left"></i> Ir atrás
+                </a>
+            </div>
+        </div>
+
+    </div>
+    </html>
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'general/block-ui/jquery.blockUI.js' %}" type="text/javascript"></script>
+    <script src="{% static 'general/bootstrap-sweetalert/sweetalert.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'general/vendors/js/ui-sweetalert.min.js' %}" type="text/javascript"></script>
+{% endblock %}
