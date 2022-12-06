@@ -11,9 +11,9 @@ services:
     ports:
       - 5050:80     
     networks:
-      - devops_cmg_default  
+      - eppestudio_default  
 networks:     
-  devops_cmg_default:
+  eppestudio_default:
     external: true
     
 
