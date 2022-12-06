@@ -1,0 +1,122 @@
+<div class="accordion accordion-solid accordion-toggle-plus" id="accordionExample6">
+
+    <div class="card">
+        <div class="card-header" id="headingTwo6">
+            <div class="card-title collapsed" data-toggle="collapse" data-target="#collapseTwo6" aria-expanded="false"
+                 aria-controls="collapseTwo6">
+                <i class="flaticon-search"></i> Filtrar
+            </div>
+        </div>
+        <div id="collapseTwo6" class="collapse" aria-labelledby="headingTwo6" data-parent="#accordionExample6">
+            <div class="card-body">
+                <div class="buscar_equipo_proteccion_personal">
+                    <form action="" method="GET">
+
+                        <div class="buscar_equipo_proteccion_personal_content">
+
+                            <div class="search_field">
+                                <label>Nombre:</label>
+                                <input type="text" class="form-control" placeholder="Nombre del equipo ..."
+                                       title="Escriba el nombre del equipo"
+                                       name="nombre" value="{{ request.GET.nombre }}">
+                            </div>
+
+                            <div class="search_field">
+                                <label>Categoría:</label>
+                                <select name="categoria" class="form-control" title="Seleccione una categoría">
+                                    <option value="">Seleccione una categoría ...</option>
+                                    {% for categoria in categorias %}
+                                        <option value="{{ categoria.id }}"
+                                                {% if categoria.id|striptags == request.GET.categoria %}selected{% endif %}>{{ categoria.nombre }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="search_field">
+                                <label>Entidad:</label>
+                                <select name="entidad" class="form-control" title="Seleccione una entidad">
+                                    <option value="">Seleccione una entidad ...</option>
+                                    {% for entidad in entidades %}
+                                        <option value="{{ entidad.id }}"
+                                                {% if entidad.id|striptags == request.GET.entidad %}selected{% endif %}>{{ entidad.nombre }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="search_field">
+                                <label>Modelo:</label>
+                                <input type="text" class="form-control" placeholder="Modelo del equipo ..."
+                                       title="Escriba el modelo del equipo"
+                                       name="modelo" value="{{ request.GET.modelo }}">
+                            </div>
+                        </div>
+                        <div class="buscar_equipo_proteccion_personal_content">
+
+                            <div class="search_field">
+                                <label>Fecha de vencimiento del certificado (2022-04-19):</label>
+                                <input type="text" class="form-control"
+                                       placeholder="Fecha de vencimiento del certificado ..."
+                                       title="Escriba la fecha de vencimiento del certificado"
+                                       name="fecha_vencimiento_certificado"
+                                       value="{{ request.GET.fecha_vencimiento_certificado }}">
+                            </div>
+                            <div class="search_field">
+                                <label>Número de prefactura:</label>
+                                <select name="numero_prefactura" class="form-control" title="Seleccione un número de prefactura">
+                                    <option value="">Seleccione un número de prefactura ...</option>
+                                    {% for numero_prefactura in numeros_prefactura %}
+                                        <option value="{{ numero_prefactura.id }}"
+                                                {% if numero_prefactura.id|striptags == request.GET.numero_prefactura %}selected{% endif %}>{{ numero_prefactura.numero_prefactura }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="search_field">
+                                <label>Estado de Vencimiento:</label>
+                                <select style="width: 222px" name="estado_vencimiento" class="form-control"
+                                        title="Seleccione un estado de vencimiento">
+                                    <option value="">Seleccione un estado de vencimiento ...</option>
+                                    <option value="Vigente">Vigente</option>
+                                    <option value="Vencido">Vencido</option>
+
+                                </select>
+                            </div>
+                            <div class="search_field">
+                                <label>Número de referencia:</label>
+                                <input type="text" class="form-control" placeholder="Número de referencia ..."
+                                       title="Escriba el número de referencia"
+                                       name="numero_referencia" value="{{ request.GET.numero_referencia }}">
+                            </div>
+                        </div>
+                        <div class="buscar_equipo_proteccion_personal_content">
+
+                            <div class="search_field">
+                                <label>Estado de Pago:</label>
+                                <select style="width: 222px" name="estado_pago" class="form-control"
+                                        title="Seleccione un estado de pagoo">
+                                    <option value="">Seleccione un estado de pago ...</option>
+                                    <option value="Pagado">Pagado</option>
+                                    <option value="No pagado">No pagado</option>
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="div_search_buttons">
+                            <button type="submit" style="margin-right: 5px" title="Buscar"
+                                    class="btn btn-default btn_normal search_button"><span
+                                    class="flaticon-search-magnifier-interface-symbol"></span>
+                            </button>
+
+                            <a class="btn btn-default btn_normal search_button"
+                               href="{% url 'equipos_proteccion_personal' %}"
+                               title="Limpiar filtros"> <span class="flaticon2-refresh"></span>
+                            </a>
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

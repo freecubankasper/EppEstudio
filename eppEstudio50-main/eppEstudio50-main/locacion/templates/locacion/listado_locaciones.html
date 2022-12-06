@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static serializer_locacion_object_list %}
+
+{% block title %}{{ titulo }}{% endblock %}
+
+{% block styles %}
+    <link href="{% static 'general/bootstrap-sweetalert/sweetalert.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+{% block content %}
+
+    <div class="kt-portlet kt-portlet--mobile">
+        <div class="kt-portlet__head kt-portlet__head--lg">
+
+            {% include 'tablas/titulo_tabla_listado.html' %}
+
+                <div class="kt-portlet__head-toolbar">
+                    <div class="kt-portlet__head-wrapper">
+                        <div class="kt-portlet__head-actions">
+                            {% if perms.locacion.add_locacion %}
+                                <a href="{% url 'registrar_locacion' %}" style="margin-right: 5px"
+                                   class="btn btn-brand btn-elevate btn-icon-sm kt-margin-5-tablet-and-mobile">
+                                    <i class="la la-plus"></i> Registrar
+                                </a>
+                            {% endif %}
+                            {% if perms.locacion.delete_locaciones_seleccionados %}
+                                <a onclick="mostrar_confirmacion_eliminar_seleccionados('las locaciones seleccionadas')"
+                                   data-href="{% url 'eliminar_locaciones_seleccionadas' %}"
+                                   id="btn_eliminar_seleccionados" title="Eliminar locaciones seleccionadas" href="javascript:;"
+                                   class="btn btn-brand btn-danger btn-icon-sm kt-margin-5-tablet-and-mobile">
+                                    <i class="la la-trash"></i> Eliminar seleccionadas
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+        <div class="kt-portlet__body">
+            {% include 'locacion/filtrar_locacion.html' %}
+        </div>
+
+
+        <div class="kt-portlet__body">
+
+            <div class="kt-datatable" id="local_data"
+                 data-locaciones="{{ object_list|serializer_locaciones }}"
+                 data-modificar_locacion="{{ perms.locacion.change_locacion }}"
+                 data-deshabilitar_locacion="{{ perms.locacion.disable_locacion }}"
+                 data-habilitar_locacion="{{ perms.locacion.enable_locacion }}"
+                 data-eliminar_locacion="{{ perms.locacion.delete_locacion }}"
+                 data-detalles_locacion="{{ perms.locacion.view_locacion }}"
+                 data-registrar_evento="{{ perms.evento.add_eventolocacion }}"
+                 data-listado_evento="{{ perms.evento.view_eventolocacion }}">
+            </div>
+
+            {% include 'tablas/paginado.html' %}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'js/tablas/locacion/listado_locaciones.js' %}" type="text/javascript"></script>
+    <script src="{% static 'general/block-ui/jquery.blockUI.js' %}" type="text/javascript"></script>
+    <script src="{% static 'general/bootstrap-sweetalert/sweetalert.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'general/vendors/js/ui-sweetalert.min.js' %}" type="text/javascript"></script>
+{% endblock %}

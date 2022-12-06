@@ -1,0 +1,117 @@
+<div class="modal fade" id="id_modal_exportar_factura" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="id_modal_exportar_factura_title">Exportar Factura:</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="limpiarModalFactura();">
+                </button>
+            </div>
+            <form action="{% url 'exportar_factura' %}" method="GET"
+                  id="id_comprobar_numero_factura_form"> {% csrf_token %}
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    <label for="id_numero_prefactura" class="form-control-label">Número de Prefactura:
+                                        <h1 class="field_required">*</h1></label>
+                                    <select style="display: block; width: 100%" name="numero_prefactura" class="form-control"
+                                            title="Seleccione un número de prefactura" required>
+                                        <option value="">Seleccione un número de prefactura ...</option>
+                                        {% for numero_prefactura in numeros_prefactura %}
+                                            <option value="{{ numero_prefactura.id }}"
+                                                    {% if numero_prefactura.id|striptags == request.GET.numero_prefactura %}selected{% endif %}>{{ numero_prefactura.numero_prefactura }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    <label for="id_tipo_pago" class="form-control-label">Tipo de Pago: <h1
+                                            class="field_required">*</h1></label>
+                                    <select style="display: block; width: 100%" name="tipo_pago" class="form-control"
+                                            title="Seleccione un tipo de pago" required>
+                                        <option value="">Seleccione un tipo de pago ...</option>
+                                        <option value="CUP">CUP</option>
+                                        <option value="MLC">MLC</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    <label for="id_elaborado_nombre" class="form-control-label">Elaborado por (nombre):
+                                        <h1 class="field_required">*</h1></label>
+                                    <input type="text" class="form-control" id="id_elaborado_nombre"
+                                           name="elaborado_nombre" title="Escriba el nombre" required>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    <label for="id_elaborado_cargo" class="form-control-label">Elaborado por (cargo):
+                                        <h1 class="field_required">*</h1></label>
+                                    <input type="text" class="form-control" id="id_elaborado_cargo"
+                                           name="elaborado_cargo" title="Escriba el cargo" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    <label for="id_revisado_nombre" class="form-control-label">Revisado por (nombre):
+                                        <h1 class="field_required">*</h1></label>
+                                    <input type="text" class="form-control" id="id_revisado_nombre"
+                                           name="revisado_nombre" title="Escriba el nombre" required>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    <label for="id_revisado_cargo" class="form-control-label">Revisado por (cargo) <h1
+                                            class="field_required">*</h1></label>
+                                    <input type="text" class="form-control" id="id_revisado_cargo"
+                                           name="revisado_cargo" title="Escriba el cargo" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    <label for="id_entregado_registrado_nombre" class="form-control-label">Entregado y
+                                        Registrado por (nombre): <h1 class="field_required">*</h1></label>
+                                    <input type="text" class="form-control" id="id_entregado_registrado_nombre"
+                                           name="entregado_registrado_nombre" title="Escriba el nombre" required>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    <label for="id_entregado_registrado_cargo" class="form-control-label">Entregado y
+                                        Registrado por (cargo): <h1 class="field_required">*</h1></label>
+                                    <input type="text" class="form-control" id="id_entregado_registrado_cargo"
+                                           name="entregado_registrado_cargo" title="Escriba el cargo"required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="limpiarModalFactura();">Cerrar</button>
+                    {% if perms.equipo_proteccion_personal.export_factura %}
+                        <button type="submit" class="btn btn-primary"
+                                onclick="$('#id_comprobar_numero_factura_form').submit();">Exportar
+                        </button>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% block scripts %}
+    <script>
+        function limpiarModalFactura(){
+            $('#id_comprobar_numero_factura_form')[0].reset();
+            $("option:selected").val("").trigger('change');
+        }
+    </script>
+{% endblock %}

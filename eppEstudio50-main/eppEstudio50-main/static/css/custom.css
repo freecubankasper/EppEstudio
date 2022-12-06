@@ -1,0 +1,151 @@
+/*  LOGIN  */
+.login_field_error{
+    padding: 10px 10px 0 10px;
+}
+
+
+/*  ESPECIFICAR CAMPO REQUERIDO  */
+.field_required {
+    color: red;
+    font-size: 100%;
+    display: inline
+}
+
+/*  INICIO PAGINADO    */
+.alinear_derecha {
+    float: right;
+}
+
+.principal_paginado {
+    padding-right: -10px !important;
+    display: inline-block !important;
+}
+
+.texto_paginado {
+    text-align: center;
+    padding: 9px 20px 0 12px;
+    display: inline-block !important;
+}
+
+.texto_paginado h1 {
+    font-size: 100%;
+}
+
+.seleccionar_paginado {
+    text-align: center;
+    display: inline-block !important;
+    width: 75px;
+}
+/*  FIN PAGINADO    */
+
+/* INICIO LISTADO PERMISO TRABAJO */
+.href_text_listado {
+    color: #6c7293;
+}
+
+.href_text_listado:hover {
+    color: #464866;
+}
+/* FIN LISTADO PERMISO TRABAJO */
+
+/* INICIO DETALLES PERMISO TRABAJO*/
+.historial {
+    margin-top: 15px;
+    padding-left: 15px;
+    padding-top: 15px;
+    box-shadow: 1px 1px 3px #999;
+}
+
+.historial:hover {
+    box-shadow: 2px 2px 5px 1px #999;
+    transition: all 90ms ease-out 0s;
+}
+/* FIN DETALLES PERMISO TRABAJO*/
+
+.buscar {
+    margin-top: 20px;
+    display: inline-block;
+    width: 100%;
+    border: 1px solid #e7ecf1;
+    box-shadow: 1px 1px 3px #999;
+}
+
+/*  PC  */
+@media (max-width: 630px) {
+
+    .buscar_content {
+        width: 88%;
+        display: inline;
+        float: left;
+        padding: 8px
+    }
+
+    .div_search_buttons {
+        display: inline;
+        float: left;
+        padding-right: 12px;
+        width: 100%;
+        margin-left: 14px;
+        margin-bottom: 20px;
+    }
+}
+
+/*  MOBILE  */
+@media (min-width: 631px) {
+
+    .buscar_content {
+        width: 80%;
+        display: inline;
+        float: left;
+        padding: 8px
+    }
+
+    .div_search_buttons {
+        display: inline;
+        float: right;
+        padding-right: 12px
+    }
+
+    .search_button {
+        margin-top: 38px;
+    }
+}
+
+.search_field {
+    display: inline-block;
+    padding: 5px;
+    width: 200px;
+    margin-bottom: 15px;
+}
+
+.search_field > span {
+    width: 100% !important;
+}
+
+.seccion_detalles {
+    border-radius: 0 !important;
+    margin-top: 15px;
+    padding-top: 25px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    box-shadow: 1px 1px 3px #999;
+}
+
+.seccion_detalles:hover {
+    box-shadow: 2px 2px 5px 1px #999;
+    transition: all 90ms ease-out 0s;
+}
+
+@media (max-width: 596px){
+    .div_detalles_accidente_laboral {
+        overflow-x: scroll !important;
+    }
+    .tabla_detalles_accidente_laboral {
+        width: 500px !important;
+    }
+}
+
+.kt-badge--yellow {
+    color: #ffffff !important;
+    background-color: #f1f147 !important;
+}

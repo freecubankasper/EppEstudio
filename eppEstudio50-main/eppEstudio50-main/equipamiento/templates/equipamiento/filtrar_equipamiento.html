@@ -1,0 +1,64 @@
+<div class="accordion accordion-solid accordion-toggle-plus" id="accordionExample6">
+
+    <div class="card">
+        <div class="card-header" id="headingTwo6">
+            <div class="card-title collapsed" data-toggle="collapse" data-target="#collapseTwo6" aria-expanded="false"
+                 aria-controls="collapseTwo6">
+                <i class="flaticon-search"></i> Filtrar
+            </div>
+        </div>
+        <div id="collapseTwo6" class="collapse" aria-labelledby="headingTwo6" data-parent="#accordionExample6">
+            <div class="card-body">
+                <div class="buscar_equipamiento">
+                    <form action="" method="GET">
+
+                        <div class="buscar_equipamiento_content">
+
+                            <div class="search_field">
+                                <label>Nombre:</label>
+                                <input type="text" class="form-control" placeholder="Nombre del equipamiento ..."
+                                       title="Escriba el nombre del equipamiento"
+                                       name="nombre" value="{{ request.GET.nombre }}">
+                            </div>
+
+                            <div class="search_field">
+                                <label>Subcategoría de servicio:</label>
+                                <select name="subcategoria_servicio" class="form-control" title="Seleccione una subcategoría de servicio">
+                                    <option value="">Seleccione una subcategoría de servicio ...</option>
+                                    {% for subcategoria_servicio in subcategorias_servicio %}
+                                        <option value="{{ subcategoria_servicio.id }}"
+                                                {% if subcategoria_servicio.id|striptags == request.GET.subcategoria_servicio %}selected{% endif %}>{{ subcategoria_servicio.nombre }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="search_field">
+                                <label>Marca comercial:</label>
+                                <select name="marca_comercial" class="form-control" title="Seleccione una marca comercial">
+                                    <option value="">Seleccione una marca comercial ...</option>
+                                    {% for marca_comercial in marcas_comercial %}
+                                        <option value="{{ marca_comercial.id }}"
+                                                {% if marca_comercial.id|striptags == request.GET.marca_comercial %}selected{% endif %}>{{ marca_comercial.nombre }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="div_search_buttons">
+                            <button type="submit" style="margin-right: 5px" title="Buscar"
+                                    class="btn btn-default btn_normal search_button"><span
+                                    class="flaticon-search-magnifier-interface-symbol"></span>
+                            </button>
+
+                            <a class="btn btn-default btn_normal search_button"
+                               href="{% url 'equipamientos' %}"
+                               title="Limpiar filtros"> <span class="flaticon2-refresh"></span>
+                            </a>
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

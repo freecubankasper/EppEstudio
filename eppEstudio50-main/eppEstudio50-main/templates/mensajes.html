@@ -1,0 +1,5 @@
+{% if messages %}
+    {% for message in messages %}
+        <div id="messages" data-messages="{{ message }}" data-message_level="{{ message.level }}" ></div>
+    {% endfor %}
+{% endif %}

@@ -1,0 +1,53 @@
+<div class="accordion accordion-solid accordion-toggle-plus" id="accordionExample6">
+
+    <div class="card">
+        <div class="card-header" id="headingTwo6">
+            <div class="card-title collapsed" data-toggle="collapse" data-target="#collapseTwo6" aria-expanded="false"
+                 aria-controls="collapseTwo6">
+                <i class="flaticon-search"></i> Filtrar
+            </div>
+        </div>
+        <div id="collapseTwo6" class="collapse" aria-labelledby="headingTwo6" data-parent="#accordionExample6">
+            <div class="card-body">
+                <div class="buscar_numero_prefactura">
+                    <form action="" method="GET">
+
+                        <div class="buscar_numero_prefactura">
+
+                            <div class="search_field">
+                                <label>Número de la prefactura:</label>
+                                <input type="text" class="form-control" placeholder="Número de la prefactura ..."
+                                       title="Escriba el número de la prefactura"
+                                       name="numero_prefactura" value="{{ request.GET.numero_prefactura }}">
+                            </div>
+
+                            <div class="search_field">
+                                <label>Entidad:</label>
+                                <select name="entidad" class="form-control" title="Seleccione una entidad">
+                                    <option value="">Seleccione una entidad ...</option>
+                                    {% for entidad in entidades %}
+                                        <option value="{{ entidad.id }}"
+                                                {% if entidad.id|striptags == request.GET.entidad %}selected{% endif %}>{{ entidad.nombre }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="div_search_buttons">
+                            <button type="submit" style="margin-right: 5px" title="Buscar"
+                                    class="btn btn-default btn_normal search_button"><span
+                                    class="flaticon-search-magnifier-interface-symbol"></span>
+                            </button>
+
+                            <a class="btn btn-default btn_normal search_button"
+                               href="{% url 'numeros_prefactura' %}"
+                               title="Limpiar filtros"> <span class="flaticon2-refresh"></span>
+                            </a>
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

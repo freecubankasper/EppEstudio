@@ -1,0 +1,68 @@
+{% load paginado %}
+
+<div class="div_container">
+    <div class="alinear_derecha">
+        <div class="seleccionar_paginado">
+            <select class="form-control kt-selectpicker" onchange="alert('Opción en desarrollo...');">
+                <option>10</option>
+                <option>20</option>
+                <option>50</option>
+                <option>100</option>
+            </select>
+        </div>
+
+        <div class="texto_paginado">
+{#            <h1>{{ page_obj.start_index }} - {{ page_obj.end_index }} / {{ total }}</h1>#}
+            <h1>{% if total %}{{ total }}{% else %}0{% endif %}</h1>
+        </div>
+
+        <div class="principal_paginado kt-pagination kt-pagination--info">
+            <ul class="kt-pagination__links">
+                {#      IR A LA PRIMERA PÁGINA        #}
+                {% if pagina_anterior %}
+                    <li class="kt-pagination__link--first">
+                        <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}page=1" title="Primera página"><i class="fa fa-angle-double-left kt-font-primary"></i></a>
+                    </li>
+                {% else %}
+                    <li class="kt-pagination__link--first">
+                        <a class="a_pagination" title="Primera página"><i class="fa fa-angle-double-left"></i></a>
+                    </li>
+                {% endif %}
+                {#      IR A LA PÁGINA ANTERIOR        #}
+                {% if pagina_anterior %}
+                    <li class="kt-pagination__link--next">
+                        <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}page={{ pagina_anterior|pagina_anterior }}" title="Página anterior"><i class="fa fa-angle-left kt-font-primary"></i></a>
+                    </li>
+                {% else %}
+                    <li class="kt-pagination__link--next">
+                        <a title="Página anterior"><i class="fa fa-angle-left"></i></a>
+                    </li>
+                {% endif %}
+                {#      MOSTRAR NÚMERO DE LA  PÁGINA ACTUAL        #}
+                <li class="kt-pagination__link--active">
+                    <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}page={{ pagina_anterior|pagina_actual }}">{{ pagina_anterior|pagina_actual }}</a>
+                </li>
+                {#      IR A LA PÁGINA SIGUIENTE        #}
+                {% if pagina_siguiente %}
+                    <li class="kt-pagination__link--prev">
+                        <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}page={{ pagina_siguiente|pagina_siguiente }}" title="Página siguiente"><i class="fa fa-angle-right kt-font-primary"></i></a>
+                    </li>
+                 {% else %}
+                    <li class="kt-pagination__link--prev">
+                        <a title="Página siguiente"><i class="fa fa-angle-right"></i></a>
+                    </li>
+                {% endif %}
+                {#      IR A LA ÚLTIMA PÁGINA        #}
+                {% if pagina_siguiente %}
+                    <li class="kt-pagination__link--last">
+                        <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}page={{ total|ultima_pagina }}" title="Última página"><i class="fa fa-angle-double-right kt-font-primary"></i></a>
+                    </li>
+                {% else %}
+                    <li class="kt-pagination__link--last">
+                        <a title="Última página"><i class="fa fa-angle-double-right"></i></a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>

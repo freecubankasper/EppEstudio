@@ -1,0 +1,66 @@
+<div class="accordion accordion-solid accordion-toggle-plus" id="accordionExample6">
+
+    <div class="card">
+        <div class="card-header" id="headingTwo6">
+            <div class="card-title collapsed" data-toggle="collapse" data-target="#collapseTwo6" aria-expanded="false"
+                 aria-controls="collapseTwo6">
+                <i class="flaticon-search"></i> Filtrar
+            </div>
+        </div>
+        <div id="collapseTwo6" class="collapse" aria-labelledby="headingTwo6" data-parent="#accordionExample6">
+            <div class="card-body">
+                <div class="buscar_proyecto">
+                    <form action="" method="GET">
+
+                        <div class="buscar_proyecto">
+
+                            <div class="search_field">
+                                <label>Nombre del proyecto:</label>
+                                <input type="text" class="form-control" placeholder="Nombre del proyecto ..."
+                                       title="Escriba el nombre del proyecto"
+                                       name="nombre" value="{{ request.GET.nombre }}">
+                            </div>
+
+                            <div class="search_field">
+                                <label>Tipo de proyecto:</label>
+                                <select name="categoria" class="form-control" title="Seleccione un tipo de proyecto">
+                                    <option value="">Seleccione un tipo de proyecto ...</option>
+                                    {% for categoria in categorias %}
+                                        <option value="{{ categoria.id }}"
+                                                {% if categoria.id|striptags == request.GET.categoria %}selected{% endif %}>{{ categoria.nombre }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="search_field">
+                                <label for="id_fecha_inicio" class="form-control-label">Fecha de inicio:</label>
+                                <input type="date" class="form-control"
+                                       name="fecha_inicio" title="Seleccione una fecha de inicio">
+                            </div>
+
+                            <div class="search_field">
+                                <label for="id_fecha_fin" class="form-control-label">Fecha final:</label>
+                                <input type="date" class="form-control"
+                                       name="fecha_fin" title="Seleccione una fecha de culminación">
+                            </div>
+                        </div>
+
+                        <div class="div_search_buttons">
+                            <button type="submit" style="margin-right: 5px" title="Buscar"
+                                    class="btn btn-default btn_normal search_button"><span
+                                    class="flaticon-search-magnifier-interface-symbol"></span>
+                            </button>
+
+                            <a class="btn btn-default btn_normal search_button"
+                               href="{% url 'listado_proyect' %}"
+                               title="Limpiar filtros"> <span class="flaticon2-refresh"></span>
+                            </a>
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
