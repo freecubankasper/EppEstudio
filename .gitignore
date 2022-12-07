@@ -57,8 +57,5 @@ target/
 # Vim
 .ropeproject
 
-# Docker
-data/
-
 #MacOS
 .DS_Store
