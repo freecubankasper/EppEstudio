@@ -1,6 +1,6 @@
 version: '3'
 services:
-  
+  #servicio de base de datos postgres
   db_postgres:
     #image: postgres:15.1-focal
     image: postgres:13.2-alpine
@@ -10,6 +10,21 @@ services:
       - ./backups:/backups
     env_file:
       - .env
+##########################################################
+
+  #pgadmin para la administracion web de postgres    
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4:6.16
+    env_file:
+      - ./pgadmin/.env
+    ports:
+      - 5050:80
+    depends_on:
+      - db_postgres  
+##########################################################
+
+  #back-end Django+python using guicorn to run the web server
   web_python:
     build: .
     #restart: always
@@ -22,3 +37,16 @@ services:
       - .env  
     depends_on:
       - db_postgres
+##########################################################
+
+  #nginx web server to get requests
+  nginx:
+    container_name: nginx
+    build: ./nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/static:/static
+    depends_on:
+      - web_python    
+  ##########################################################    
