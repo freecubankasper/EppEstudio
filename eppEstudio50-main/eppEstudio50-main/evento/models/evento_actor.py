@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 from django.db import models
 
 from actor.models.actor import Actor
+from llamado.models.llamado_proyecto import LlamadoProyecto
 
 
 class EventoActor(models.Model):
@@ -11,6 +12,9 @@ class EventoActor(models.Model):
     actor = models.ForeignKey(Actor, on_delete=models.CASCADE, blank=True, null=True)
 
     descripcion = models.TextField()
+    llamado = models.ForeignKey(LlamadoProyecto, on_delete=models.CASCADE, blank=True, null=True)
+    precio_mlc_acumulado = models.IntegerField(blank=True, null=True)
+
 
     fecha_inicio_evento = models.DateTimeField()
 

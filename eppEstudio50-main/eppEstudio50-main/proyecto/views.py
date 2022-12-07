@@ -1,15 +1,24 @@
 import datetime
 from django.core.checks import messages
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views import View
+from django.template.loader import get_template
 from django.views.generic import ListView, CreateView, UpdateView, TemplateView, DetailView
 from core.utiles.permission_required import PermissionRequiredMixin
+from equipo_proteccion_personal.utiles.pdfs import to_base64
+from llamado.models.llamado_proyecto import LlamadoProyecto
 from nomencladores.models.categoria import Categoria
 from proyecto.forms.form_proyecto import ProyectoForm
 from proyecto.models import Proyecto, HistorialEstadoProyecto
 from django.contrib import messages
+from django.shortcuts import render
+from xhtml2pdf import pisa
+import os
+from epp import settings
+
 
 
 class Gestionar_proyectoView(TemplateView):
@@ -205,6 +214,8 @@ class ActualizarEstadoProyectoView(PermissionRequiredMixin, TemplateView):
         proyecto = Proyecto.objects.get(id=self.kwargs['pk'])
         estados = []
         if proyecto.estado_proyecto == 'Creado':
+            estados = ['SolicitudRevision']
+        if proyecto.estado_proyecto == 'SolicitudRevision':
             estados = ['Aprobado', 'Denegado']
         elif proyecto.estado_proyecto == 'Aprobado' or proyecto.estado_proyecto == 'Denegado':
             estados = ['Finalizado']
@@ -214,9 +225,63 @@ class ActualizarEstadoProyectoView(PermissionRequiredMixin, TemplateView):
     def post(self, request, *args, **kwargs):
         proyecto = Proyecto.objects.get(id=self.kwargs['pk'])
         estado = request.POST['estado']
+        monto = request.POST['proyecto_monto']
         proyecto.estado_proyecto = estado
         proyecto.fecha_estado_proyecto = datetime.datetime.now()
+        proyecto.precio_aprobacion = monto
         proyecto.save()
         HistorialEstadoProyecto.objects.create(proyecto=proyecto, estado_proyecto=estado)
         messages.add_message(request, messages.SUCCESS, "Estado del proyecto actualizado con éxito.")
         return redirect(reverse("listado_proyect"))
+class ActualizarCalendarioEstadoProyectoView(TemplateView):
+    def post(self, request, *args, **kwargs):
+        if self.request.method=='POST':
+            nombre = request.POST.get('id_observaciones')
+
+            pk=self.kwargs['pk']
+            proyecto = Proyecto.objects.filter(id=pk).first()
+            proyecto.observaciones_aprobacion=nombre
+            proyecto.estado_proyecto='SolicitudRevision'
+            proyecto.save()
+
+
+            HistorialEstadoProyecto.objects.create(proyecto=proyecto, estado_proyecto=proyecto.estado_proyecto)
+
+            return HttpResponseRedirect(reverse_lazy('proyects'))
+
+        raise PermissionDenied
+
+
+class ProyectoPDFView(PermissionRequiredMixin, View):
+    permission = 'evento.export_eventosproyecto'
+
+    def get(self, request, *args, **kwargs):
+        proyecto_id = self.kwargs['proyecto_id']
+        proyecto = Proyecto.objects.filter(id=proyecto_id).first()
+        llamados = LlamadoProyecto.objects.filter(proyecto_id=proyecto_id)
+        eventos = Proyecto.objects.filter(id=proyecto_id).order_by('id')
+        template_path = 'pdfs/eventos_proyecto_pdf.html'
+        if not request.user.has_perm('evento.export_eventosproyecto'):
+            raise PermissionDenied
+        for evento in eventos:
+            title = f'Proyecto {proyecto.nombre}'
+            data = {
+                'title': title,
+                'proyecto': proyecto,
+                'llamados': llamados,
+                'header': to_base64(os.path.join(settings.BASE_DIR, 'static', 'assets', 'base', 'img', 'layout', 'logos', 'logo-5negrohabana.png')),
+                'PROD': settings.PRODUCTION,
+
+            }
+            response = HttpResponse(content_type='application/pdf')
+            response['Content-Disposition'] = f'attachment; filename="{title}.pdf"'
+            template = get_template(template_path)
+            html = template.render(data)
+
+            # create a pdf
+            pisa_status = pisa.CreatePDF(
+                html, dest=response)
+
+            if pisa_status.err:
+                return HttpResponse('Nosotros tuvimos algunos errores <pre>' + html + '</pre>')
+            return response

@@ -746,7 +746,7 @@ var LayoutProgressBar = function ($) {
 				var font_color = $(this).css('color'); // progress font color
 
 				// set default data if options is null / undefinded
-				if (bar_color == 'rgb(92, 104, 115)'){ bar_color = '#32c5d2'; } // set default color 
+				if (bar_color == 'rgb(92, 104, 115)'){ bar_color = 'red'; } // set default color 
 				if (trail_color == ''){ trail_color = '#5c6873'; }
 				if (trail_width == ''){ trail_width = '0'; }
 				if (bar_progress == ""){ bar_progress = '1'; }

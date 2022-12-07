@@ -5,7 +5,7 @@ function crear_modal__detalles_equipamiento(element_id) {
     $.ajax({
         data: {'element_id': element_id},
         type: 'get',
-        url: '/crear_modal_detalles_contratado_familiar_ayudante/',
+        url: '/crear_modal__detalles_equipamiento/',
         success: function (result) {
 
             let html = '' +

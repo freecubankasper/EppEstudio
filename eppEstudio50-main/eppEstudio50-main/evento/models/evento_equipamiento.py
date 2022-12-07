@@ -17,6 +17,8 @@ class EventoEquipamiento(models.Model):
 
     descripcion = models.TextField()
 
+    precio_mlc_acumulado = models.IntegerField(blank=True, null=True)
+
     fecha_inicio_evento = models.DateTimeField()
 
     fecha_fin_evento = models.DateTimeField()

@@ -21,6 +21,7 @@ from django.contrib import admin
 from django.contrib.auth.views import LoginView, logout_then_login
 from django.urls import path, include
 
+from core.views.especialidades import EspecialidadesView
 from core.views.gestionlista import Adicionarmilista
 from core.views.inicia import IniciaView
 from core.views.inicio import InicioView
@@ -49,6 +50,8 @@ urlpatterns = [
          name='proyects'),
     path('equipment/', EquipmentView.as_view(),
          name='equipment'),
+    path('especialidades/', EspecialidadesView.as_view(),
+         name='especialidades'),
     path('partners/', PartnersView.as_view(),
          name='partners'),
     # path('calendario/', CalendarioView.as_view(),
@@ -57,6 +60,7 @@ urlpatterns = [
          name='calendario'),
     path('adicionarmilista/<int:producto_id>/<int:subcategoria>/<str:nombre>/<int:cantidad>', Adicionarmilista.as_view(),
          name='adicionar_milista'),
+
 
     # path('talentdetail/<integer:inc_number>/', TalentdetailView.as_view() name='talentdetail'),
     # path('iniciar-sesion/', MyLoginView.as_view(), name='iniciar_sesion'),
@@ -77,7 +81,7 @@ urlpatterns = [
     path('', include('transporte.urls')),
     path('', include('abastecimiento.urls')),
     path('', include('especialista.urls')),
-    path('crear_modal_detalles_contratado_familiar_ayudante/', ajax_views.DetallesEquipamientoAjaxView.as_view()),
+    path('crear_modal__detalles_equipamiento/', ajax_views.DetallesEquipamientoAjaxView.as_view()),
     path('crear_modal_detalles_talento/', ajax_views.DetallesTalentoAjaxView.as_view()),
     path('adicionarequipamiento/<int:proyecto_id>/<int:llamado_id>', ajax_views.DetallesEquipamientoAjaxView.as_view()),
 

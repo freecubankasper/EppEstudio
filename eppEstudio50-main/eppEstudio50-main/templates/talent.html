@@ -1,4 +1,5 @@
-{% extends 'baseproyect.html' %}
+{% extends 'baseproyect2blanco.html' %}
+
 {% load static %}
 {% load bootstrap %}
 
@@ -10,7 +11,8 @@
 	<li>
         <form method="GET">
             {{ talentos.form | bootstrap}}
-            <button type="submit" class="c-btn-icon c-btn-square c-font-sbold"><span class="glyphicon glyphicon-search"></span>Buscar </button>
+            <button type="submit" class="btn btn-default c-btn-uppercase c-btn-bold"><i class="glyphicon glyphicon-search"></i> Search</button>
+
         </form>
     </li>
 	<li>
@@ -39,12 +41,17 @@
         </div>
     </div>
 </div>
-        <div class="container" >
-		<div class="c-content-isotope-grid c-opt-3">
+
+		<div class="c-content-isotope-grid c-opt-4">
             {% for documento in talentos.qs %}
-			<div class="c-content-isotope-item col-xl-2 col-md-2">
+			<div class="c-content-isotope-item col-xl-4 col-md-4 col-lg-4">
 				<div class="c-content-isotope-image-container">
-					<img class="c-content-isotope-image" style="height: 200px" src="/media/{{ documento.primera_img }}"/>
+                {% if documento.primera_img %}
+                    <img class="c-content-isotope-image" style="height: 300px" src="/media/{{ documento.primera_img }}"/>
+                {% endif %}
+                {% if not documento.primera_img %}
+					<img class="c-content-isotope-image" style="height: 300px" src="{% static 'assets/base/img/content/Servicio_Talent_A1.jpg'%}"/>
+                {% endif %}
                     <span class="c-font-black" style="display: block;
   display: -webkit-box;
   -webkit-line-clamp: 9;
@@ -55,26 +62,21 @@
                     <br>
                     {% if documento.precio_mlc is not None %}<span>{{ documento.precio_mlc }} EUR</span>{% endif %}
 
-					<div class="c-content-isotope-overlay">
-						<div class="c-content-isotope-overlay-content">
-							<h3 class="c-content-isotope-overlay-title c-font-white c-font-uppercase" >{{ documento.primer_nombre }}</h3>
-							 {% if documento.observaciones is not None %}<p class="c-content-isotope-overlay-desc c-font-white">{{ documento.observaciones }}</p>{% endif %}
-							<a href="#id_modal_generico_mediano" data-toggle="modal" class="c-content-isotope-overlay-btn btn c-btn-white c-btn-uppercase c-btn-bold c-btn-border-1x c-btn-square"
-                                       id="detalles_cont_fa_{{ element.id }}"
-                                       onclick="crear_modal__detalles_talento({{ documento.id }});">
-                                        <i class="kt-nav__link-icon la la-search"></i>Explore
-                                    </a>
+                        <div class="row center">
+                            <div class="col-xl-12 col-md-12 col-lg-12 col-sm-12">
+                                    <button href="#id_modal_generico_mediano" data-toggle="modal"
+                                               id="detalles_cont_fa_{{ element.id }}" onclick="crear_modal__detalles_talento({{ documento.id }});"class="btn btn-default c-btn-uppercase c-btn-bold"><i class="glyphicon glyphicon-eye-open"></i>Detail</button>
 
-						</div>
-					</div>
+                            </div>
+                        </div>
+                <br>                <br>
+
 				</div>
 			</div>
             {% endfor %}
 
 
 				</div>
-
-        </div>
 
 
 </div></div></div>

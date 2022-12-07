@@ -13,6 +13,10 @@ class Proyecto(models.Model):
 
     emergencia = models.CharField(max_length=250)
 
+    observaciones_aprobacion = models.CharField(max_length=250, blank=True, null=True)
+
+    precio_aprobacion = models.IntegerField(blank=True, null=True)
+
     fecha_inicio = models.DateField()
 
     fecha_fin = models.DateField()

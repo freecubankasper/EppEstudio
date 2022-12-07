@@ -26,4 +26,23 @@ class Migration(migrations.Migration):
             name='sexo',
             field=models.CharField(choices=[('Femenino', 'F'), ('Masculino', 'M'), ('Otro', 'Otro')], max_length=20),
         ),
+        migrations.RenameField(
+            model_name='actor',
+            old_name='facebook',
+            new_name='instagram',
+        ),
+        migrations.RenameField(
+            model_name='actor',
+            old_name='precio_cup',
+            new_name='precio_euro',
+        ),
+        migrations.RemoveField(
+            model_name='actor',
+            name='precio_mlc',
+        ),
+        migrations.AddField(
+            model_name='actor',
+            name='observaciones',
+            field=models.CharField(blank=True, max_length=100, null=True),
+        ),
     ]

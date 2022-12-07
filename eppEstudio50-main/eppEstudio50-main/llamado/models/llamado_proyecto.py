@@ -17,6 +17,8 @@ class LlamadoProyecto(models.Model):
 
     direccion_centro_emergencia = models.CharField(max_length=250)
 
+    precio_mlc_acumulado = models.IntegerField(blank=True, null=True)
+
     proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE, blank=True, null=True)
 
     production_call = models.DateTimeField()

@@ -2,6 +2,7 @@ import django_filters
 
 from actor.models.actor import Actor
 from equipamiento.models.equipamiento import Equipamiento
+from especialista.models.especialista import Especialista
 from locacion.models.locacion import Locacion
 from nomencladores.models.categoria import Categoria
 from nomencladores.models.sub_categoria import SubCategoria
@@ -25,6 +26,15 @@ class ActorFilter(django_filters.FilterSet):
     class Meta:
         model = Actor
         fields = ['primer_nombre', 'apodo','sexo','municipio','subcategoria_servicio']
+
+class EspecialidadesFilter(django_filters.FilterSet):
+    primer_nombre = django_filters
+    # municipio__provincia__nombre = django_filters
+    subcategoria_servicio = django_filters.ModelChoiceFilter(queryset=SubCategoria.objects.filter(categoria_servicio=2))
+    class Meta:
+        model = Especialista
+        fields = ['primer_nombre', 'apodo','sexo','municipio','subcategoria_servicio']
+
 
 class LocacionFilter(django_filters.FilterSet):
     marca__nombre = django_filters

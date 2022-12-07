@@ -8,6 +8,10 @@ urlpatterns = [
     # EVENTOSPROYECTOS
     path('proyectos/listado-proyecto/<int:proyecto_id>/llamados/<int:llamado_id>/registrar/', evento_proyecto.RegistrarEventoProyectoView.as_view(), name='registrar_evento_proyecto'),
     path('calendario/<int:proyecto_id>/eventos/<int:llamado_id>/registrar/',evento_proyecto.RegistrarEventoProyectoCalendarioView.as_view(), name='registrar_evento_proyecto_calendario'),
+    path('calendario/<int:proyecto_id>/eventos/<int:llamado_id>/registrarequipamiento/',evento_proyecto.RegistrarEventoEquipamientoCalendarioView.as_view(), name='registrar_evento_equipamiento_calendario'),
+    path('calendario/<int:proyecto_id>/eventos/<int:llamado_id>/registrareventollamado/',evento_proyecto.RegistrarEventoLlamadoCalendarioView.as_view(), name='registrar_evento_llamado_calendario'),
+    path('calendario/<int:proyecto_id>/eventos/<int:llamado_id>/registrartransporte/',evento_proyecto.RegistrarEventoTransporteCalendarioView.as_view(), name='registrar_evento_transporte_calendario'),
+    path('calendario/<int:proyecto_id>/eventos/<int:llamado_id>/registrartalent/',evento_proyecto.RegistrarEventoTalentCalendarioView.as_view(), name='registrar_evento_talent_calendario'),
     path('proyectos/listado-proyecto/<int:proyecto_id>/llamados/<int:llamado_id>/eventos/', evento_proyecto.ListadoEventosProyectoView.as_view(), name='eventos_proyecto'),
     path('proyectos/listado-proyecto/<int:proyecto_id>/llamados/<int:llamado_id>/eventos/modificar/<int:pk>/', evento_proyecto.ModificarEventoProyectoView.as_view(), name='modificar_evento_proyecto'),
     path('proyectos/listado-proyecto/<int:proyecto_id>/llamados/<int:llamado_id>/eventos/eliminar/<int:pk>/', evento_proyecto.EliminarEventoProyectoView.as_view(), name='eliminar_evento_proyecto'),
@@ -19,6 +23,7 @@ urlpatterns = [
     # EVENTOSEQUIPAMIENTOS
     path('equipamientos/<int:equipamiento_id>/registrar/', evento_equipamiento.RegistrarEventoEquipamientoView.as_view(), name='registrar_evento_equipamiento'),
     path('registrarevento/<int:llamado_id>', evento_equipamiento.RegistrarEventoEquipamientoLlamadoView.as_view(), name='registrar_evento_equipamiento_llamado'),
+    path('registrareventotalet/<int:llamado_id>', evento_actor.RegistrarEventoTalentoLlamadoView.as_view(), name='registrar_evento_talento_llamado'),
     path('equipamientos/<int:equipamiento_id>/eventos/', evento_equipamiento.ListadoEventosEquipamientoView.as_view(), name='eventos_equipamiento'),
     path('equipamientos/<int:equipamiento_id>/eventos/modificar/<int:pk>/', evento_equipamiento.ModificarEventoEquipamientoView.as_view(), name='modificar_evento_equipamiento'),
     path('equipamientos/<int:equipamiento_id>/eventos/eliminar/<int:pk>/', evento_equipamiento.EliminarEventoEquipamientoView.as_view(), name='eliminar_evento_equipamiento'),

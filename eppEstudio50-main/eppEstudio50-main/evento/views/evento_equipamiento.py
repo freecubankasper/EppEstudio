@@ -10,12 +10,13 @@ from django.urls import reverse_lazy, reverse
 from django.views import View
 from django.views.generic import ListView, CreateView, UpdateView, TemplateView, DetailView, DeleteView
 
-
+from actor.models.actor import Actor
 from core.utiles.permission_required import PermissionRequiredMixin
 from epp import settings
 from equipamiento.models.equipamiento import Equipamiento
 from equipo_proteccion_personal.utiles.pdfs import to_base64
 from evento.forms.form_evento_equipamiento import EventoEquipamientoForm
+from evento.models.evento_actor import EventoActor
 from evento.models.evento_equipamiento import EventoEquipamiento
 from llamado.models.llamado_proyecto import LlamadoProyecto
 
@@ -95,7 +96,6 @@ class RegistrarEventoEquipamientoView(PermissionRequiredMixin, CreateView):
 class RegistrarEventoEquipamientoLlamadoView(TemplateView):
     def post(self, request, *args, **kwargs):
         if self.request.method=='POST':
-            print('entreeee')
             llamado_id = self.kwargs['llamado_id']
             llamado = LlamadoProyecto.objects.filter(id=llamado_id).first()
             eventos = EventoEquipamiento.objects.filter(llamado_id=llamado).first()
@@ -107,11 +107,20 @@ class RegistrarEventoEquipamientoLlamadoView(TemplateView):
             fecha_inicio_evento = request.POST.get('id_fecha_inicio')
             fecha_fin_evento = request.POST.get('id_fecha_fin')
             observaciones = ''
-            llamado = EventoEquipamiento.objects.create(titulo=nombre, cantidad=cantidad,descripcion=descripcion,llamado=llamado,
+            precio=0
+            if(llamado.tipo_pago=='medio_llamado'):
+                precio=equipamiento.precio_mlc * int(cantidad)
+            if (llamado.tipo_pago == 'llamado_completo'):
+                precio = equipamiento.precio_mlc * 2 * int(cantidad)
+
+            evento = EventoEquipamiento.objects.create(titulo=nombre, cantidad=cantidad,descripcion=descripcion,llamado=llamado,
                                                         fecha_inicio_evento=fecha_inicio_evento,fecha_fin_evento=fecha_fin_evento,
-                                                        equipamiento=equipamiento)
+                                                        equipamiento=equipamiento,precio_mlc_acumulado=precio)
+
+
+
             return HttpResponseRedirect(reverse_lazy('registrar_evento_proyecto_calendario',
-                                kwargs={'proyecto_id': llamado.llamado.proyecto.id, 'llamado_id': llamado.llamado.id}))
+                                kwargs={'proyecto_id': evento.llamado.proyecto.id, 'llamado_id': evento.llamado.id}))
 
         raise PermissionDenied
 

@@ -12,13 +12,41 @@
     <div class="container" style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);transition: 0.3s;">
     <h2 style="text-align: center;">{{ proyecto.nombre }}</h2>
     <h3 style="text-align: center;">{{ proyecto.categoria.nombre }}</h3>
+    <h3 style="text-align: center;">{{ proyecto.estado_proyecto }}</h3>
 
 
     </div><br>
     <div class="container" style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);transition: 0.3s;">
 
             <div id="calendar" class="card" style="padding: 20px">
+                {% if eventos and proyecto.estado_proyecto == 'Creado' %}
+                <button href="#revision" data-toggle="modal" class="btn btn-default c-btn-uppercase c-btn-bold"><i class="glyphicon glyphicon-send"></i> Revition Send</button>
+                {% endif %}
             </div>
+<div class="modal fade c-content-login-form" id="revision" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content c-square">
+            <div class="modal-header c-no-border">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+{#                <img src="{% static 'assets/base/img/layout/logos/logo-5negrohabana.png'%}" alt="Estudio50Habana" class="c-desktop-logo" style="max-height: 65px;">#}
+{#                <br>#}
+                <h3 class="c-font-24 c-font-sbold">Enviar a Revision</h3>
+                <p>Solicitar revision de mi proyecto</p>
+                <form class="kt-form__group" method="POST" action="{% url 'actualizar_calendario_estado_proyecto' proyecto_id %}" id="form_revision">{% csrf_token %}
+                    <div class="form-group">
+                        <label style="font-size: medium" for="id_observaciones" >Observaciones</label>
+                        <textarea type="text" id="id_observaciones" name="id_observaciones" class="form-control input-sm c-square" placeholder="Observaciones"></textarea>
+                    </div>
+                <br>
+                        <button type="submit" class="btn c-theme-btn btn-md   c-btn-square c-btn-login" style="background: white;color: black;border-color: black;">SOLICITAR REVISION</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
 
     <div class="modal fade c-content-login-form" id="crear_evento" role="dialog">
     <div class="modal-dialog">
@@ -139,6 +167,7 @@
                             id:"{{ evento.id }}",
                             title: "{{ evento.titulo }}",
                             description: "{{ evento.observaciones }}",
+                            proyecto_estado: "{{ evento.proyecto_estado_proyecto }}",
                             start: '{{ evento.production_call | date:"Y-m-d H:i"}}',
                             end: '{{ evento.fecha_fin_llamado | date:"Y-m-d H:i"}}',
                             allDay: false
@@ -168,7 +197,11 @@
                     }
                 },
                 dateClick: function(info) {
-                    $("#crear_evento").modal();
+                    console.log()
+                    if("{{ proyecto.estado_proyecto }}"!=='SolicitudRevision')
+                    {
+                        $("#crear_evento").modal();
+                    }
                 }
             });
             calendar.render();

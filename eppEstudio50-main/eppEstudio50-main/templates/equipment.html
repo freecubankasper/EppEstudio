@@ -1,4 +1,4 @@
-{% extends 'baseproyect.html' %}
+{% extends 'baseproyect2blanco.html' %}
 {% load static %}
 {% load bootstrap %}
 
@@ -10,7 +10,7 @@
 	<li>
         <form method="GET">
             {{ equipamientos.form | bootstrap}}
-            <button type="submit" class="c-btn-icon c-btn-square c-font-sbold"><span class="glyphicon glyphicon-search"></span>Buscar </button>
+            <button type="submit" class="btn btn-default c-btn-uppercase c-btn-bold"><i class="glyphicon glyphicon-search"></i> Search</button>
         </form>
     </li>
 	<li>
@@ -18,7 +18,7 @@
 	</li>
     </ul></div>
     <div class="c-layout-sidebar-content ">
-    <div class="c-content-box c-size-xg c-bg-white" style="border-top: 2px solid #FFFFFF">
+    <div class="c-content-box c-size-xg c-bg-white">
 <div class="modal fade" id="id_modal_generico_mediano" tabindex="-1" role="dialog"  aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
@@ -39,42 +39,41 @@
         </div>
     </div>
 </div>
-        <div class="container" >
-		<div class="c-content-isotope-grid c-opt-3">
+
+		<div class="c-content-isotope-grid c-opt-4">
             {% for documento in equipamientos.qs %}
-			<div class="c-content-isotope-item col-xl-2 col-md-2">
+			<div class="c-content-isotope-item col-xl-4 col-md-4 col-lg-4">
 				<div class="c-content-isotope-image-container">
 					<img class="c-content-isotope-image" style="height: 200px" src="/media/{{ documento.equipamiento_img }}"/>
                     <span class="c-font-black" style="display: block;
-  display: -webkit-box;
-  -webkit-line-clamp: 9;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;white-space: nowrap;
-  display: inline-block;">{{ documento.nombre }}</span>
+                          display: -webkit-box;
+                          -webkit-line-clamp: 3;
+                          -webkit-box-orient: vertical;
+                          overflow: hidden;
+                          text-overflow: ellipsis;white-space: nowrap;
+                          display: inline-block;">{{ documento.nombre }}</span>
                     <br>
                     {% if documento.precio_mlc is not None %}<span>{{ documento.precio_mlc }} EUR</span>{% endif %}
+                    <br>
+                    <div class="row center">
+                        <div class="col-xl-12 col-md-12 col-lg-12 col-sm-12">
+                        <button href="#id_modal_generico_mediano" data-toggle="modal"
+                                           id="detalles_cont_fa_{{ element.id }}" onclick="crear_modal__detalles_equipamiento({{ documento.id }});"class="btn btn-default c-btn-uppercase c-btn-bold center"><i class="glyphicon glyphicon-eye-open"></i>Detail</button>
+                        </div>
+                    </div>
+                                    <br>                <br>
 
-					<div class="c-content-isotope-overlay">
-						<div class="c-content-isotope-overlay-content">
-							<h3 class="c-content-isotope-overlay-title c-font-white c-font-uppercase" >{{ documento.nombre }}</h3>
-							<p class="c-content-isotope-overlay-desc c-font-white">{{ documento.descripcion }}</p>
-							<a href="#id_modal_generico_mediano" data-toggle="modal" class="c-content-isotope-overlay-btn btn c-btn-white c-btn-uppercase c-btn-bold c-btn-border-1x c-btn-square"
-                                       id="detalles_cont_fa_{{ element.id }}"
-                                       onclick="crear_modal__detalles_equipamiento({{ documento.id }});">
-                                        <i class="kt-nav__link-icon la la-search"></i>Explore
-                                    </a>
 
-						</div>
-					</div>
+
+
+
+
 				</div>
 			</div>
             {% endfor %}
 
-
 				</div>
 
-        </div>
 
 
 </div></div></div>

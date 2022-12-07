@@ -11,12 +11,13 @@ from django.views import View
 from django.views.generic import ListView, CreateView, UpdateView, TemplateView, DetailView, DeleteView
 
 from actor.models.actor import Actor
-from core.utiles.filters import EquipamientoFilter, CarrosFilter
+from core.utiles.filters import EquipamientoFilter, CarrosFilter, ActorFilter
 from core.utiles.permission_required import PermissionRequiredMixin
 from epp import settings
 from equipamiento.models.equipamiento import Equipamiento
 from equipo_proteccion_personal.utiles.pdfs import to_base64
 from evento.forms.form_evento_proyecto import EventoProyectoForm
+from evento.models.evento_actor import EventoActor
 from evento.models.evento_equipamiento import EventoEquipamiento
 from evento.models.evento_proyecto import EventoProyecto
 from llamado.models.llamado_proyecto import LlamadoProyecto
@@ -62,25 +63,127 @@ class RegistrarEventoProyectoCalendarioView(PermissionRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         proyecto_id = self.kwargs['proyecto_id']
         elemento_id=1
+        precio=0
         proyecto= Proyecto.objects.filter(id=proyecto_id).first()
         llamado_id = self.kwargs['llamado_id']
         equipamientos_seleccionados = EventoEquipamiento.objects.filter(llamado__id=llamado_id)
+        talentos_seleccionados = EventoActor.objects.filter(llamado__id=llamado_id)
+        contador = equipamientos_seleccionados.count()
+        contador =contador + talentos_seleccionados.count()
         llamado= LlamadoProyecto.objects.filter(id=proyecto_id).first()
         context = super(RegistrarEventoProyectoCalendarioView, self).get_context_data(**kwargs)
         context['form'] = self.form_class
-        talentos = Actor.objects.filter(activo=True)
-        carros = Transporte.objects.filter(activo=True)
-        context['equipamientos_seleccionados'] = equipamientos_seleccionados
+        context['talentos_seleccionados'] = talentos_seleccionados
         context['equipamientos'] = EquipamientoFilter(self.request.GET,queryset=self.get_queryset())
         context['elemento_id'] = elemento_id
-        context['talentos'] = talentos
-        # context['carros'] = CarrosFilter(self.request.GET,queryset=self.get_queryset())
-        context['carros'] = carros
+        context['precio'] = precio
+        context['proyecto_id'] = proyecto_id
+        context['llamado_id'] = llamado_id
+        context['contador'] = contador
+        context['proyecto'] = proyecto
+        context['llamado'] = llamado
+        return context
+
+class RegistrarEventoLlamadoCalendarioView(PermissionRequiredMixin, ListView):
+    model = Equipamiento
+    template_name = "evento_proyecto/form_eventos_llamado_calendario.html"
+    form_class = EventoProyectoForm
+    permission = 'evento.add_eventoproyecto'
+
+    def get_context_data(self, **kwargs):
+        proyecto_id = self.kwargs['proyecto_id']
+        elemento_id=1
+        precio=0
+        proyecto= Proyecto.objects.filter(id=proyecto_id).first()
+        llamado_id = self.kwargs['llamado_id']
+        equipamientos_seleccionados = EventoEquipamiento.objects.filter(llamado__id=llamado_id)
+        talentos_seleccionados = EventoActor.objects.filter(llamado__id=llamado_id)
+        contador = equipamientos_seleccionados.count()
+        contador =contador + talentos_seleccionados.count()
+        llamado= LlamadoProyecto.objects.filter(id=proyecto_id).first()
+        for equipamientos_seleccionado in equipamientos_seleccionados:
+            precio=precio+equipamientos_seleccionado.precio_mlc_acumulado
+        for talentos_seleccionado in talentos_seleccionados:
+            precio=precio+talentos_seleccionado.precio_mlc_acumulado
+        context = super(RegistrarEventoLlamadoCalendarioView, self).get_context_data(**kwargs)
+        context['form'] = self.form_class
+        context['equipamientos_seleccionados'] = equipamientos_seleccionados
+        context['talentos_seleccionados'] = talentos_seleccionados
+        context['equipamientos'] = EquipamientoFilter(self.request.GET,queryset=self.get_queryset())
+        context['elemento_id'] = elemento_id
+        context['precio'] = precio
+        context['contador'] = contador
         context['proyecto_id'] = proyecto_id
         context['llamado_id'] = llamado_id
         context['proyecto'] = proyecto
         context['llamado'] = llamado
         return context
+
+class RegistrarEventoEquipamientoCalendarioView(PermissionRequiredMixin, ListView):
+    model = Equipamiento
+    template_name = "evento_proyecto/form_evento_equipamiento_calendario.html"
+    form_class = EventoProyectoForm
+    permission = 'evento.add_eventoproyecto'
+
+    def get_context_data(self, **kwargs):
+        proyecto_id = self.kwargs['proyecto_id']
+        elemento_id=1
+        proyecto= Proyecto.objects.filter(id=proyecto_id).first()
+        llamado_id = self.kwargs['llamado_id']
+        llamado= LlamadoProyecto.objects.filter(id=proyecto_id).first()
+        context = super(RegistrarEventoEquipamientoCalendarioView, self).get_context_data(**kwargs)
+        context['form'] = self.form_class
+        context['equipamientos'] = EquipamientoFilter(self.request.GET,queryset=self.get_queryset())
+        context['elemento_id'] = elemento_id
+        context['proyecto_id'] = proyecto_id
+        context['llamado_id'] = llamado_id
+        context['proyecto'] = proyecto
+        context['llamado'] = llamado
+        return context
+
+class RegistrarEventoTalentCalendarioView(PermissionRequiredMixin, ListView):
+    model = Actor
+    template_name = "evento_proyecto/form_evento_talent_calendario.html"
+    form_class = EventoProyectoForm
+    permission = 'evento.add_eventoproyecto'
+
+    def get_context_data(self, **kwargs):
+        proyecto_id = self.kwargs['proyecto_id']
+        elemento_id=1
+        proyecto= Proyecto.objects.filter(id=proyecto_id).first()
+        llamado_id = self.kwargs['llamado_id']
+        llamado= LlamadoProyecto.objects.filter(id=proyecto_id).first()
+        context = super(RegistrarEventoTalentCalendarioView, self).get_context_data(**kwargs)
+        context['form'] = self.form_class
+        context['talento'] = ActorFilter(self.request.GET,queryset=self.get_queryset())
+        context['elemento_id'] = elemento_id
+        context['proyecto_id'] = proyecto_id
+        context['llamado_id'] = llamado_id
+        context['proyecto'] = proyecto
+        context['llamado'] = llamado
+        return context
+class RegistrarEventoTransporteCalendarioView(PermissionRequiredMixin, ListView):
+    model = Transporte
+    template_name = "evento_proyecto/form_evento_transporte_calendario.html"
+    form_class = EventoProyectoForm
+    permission = 'evento.add_eventoproyecto'
+
+    def get_context_data(self, **kwargs):
+        proyecto_id = self.kwargs['proyecto_id']
+        elemento_id=1
+        proyecto= Proyecto.objects.filter(id=proyecto_id).first()
+        llamado_id = self.kwargs['llamado_id']
+        llamado= LlamadoProyecto.objects.filter(id=proyecto_id).first()
+        context = super(RegistrarEventoTransporteCalendarioView, self).get_context_data(**kwargs)
+        context['form'] = self.form_class
+        context['transporte'] = CarrosFilter(self.request.GET,queryset=self.get_queryset())
+        context['elemento_id'] = elemento_id
+        context['proyecto_id'] = proyecto_id
+        context['llamado_id'] = llamado_id
+        context['proyecto'] = proyecto
+        context['llamado'] = llamado
+        return context
+
 class RegistrarEventoProyectoView(PermissionRequiredMixin, CreateView):
     model = EventoProyecto
     template_name = "evento_proyecto/form_evento_proyecto.html"

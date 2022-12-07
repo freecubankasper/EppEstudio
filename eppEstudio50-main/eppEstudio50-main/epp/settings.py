@@ -1,12 +1,12 @@
 import os
 from epp import config
-
 # import pdfkit
 from dotenv import load_dotenv
 from pathlib import Path
 from django.urls import reverse_lazy
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 load_dotenv(dotenv_path=str(os.path.join(str(BASE_DIR), '.env')))
 
 # Quick-start development settings - unsuitable for production

@@ -46,7 +46,7 @@
 					<a href="{% url 'inicio' %}"  class="c-logo">
 						<img src="{% static 'assets/base/img/layout/logos/logo-5.png'%}" alt="Estudio50Habana" class="c-desktop-logo" style="max-height: 35px;">
 						<img src="{% static 'assets/base/img/layout/logos/logo-5negrohabana.png'%}" alt="Estudio50Habana" class="c-desktop-logo-inverse" style="max-height: 30px;">
-						<img src="{% static 'assets/base/img/layout/logos/logo-5negrohabana.png'%}" alt="Estudio50Habana" class="c-mobile-logo" style="max-height: 15px;">
+						<img src="{% static 'assets/base/img/layout/logos/logo-5negrohabana.png'%}" alt="Estudio50Habana" class="c-mobile-logo" style="max-height: 30px;">
 					</a>
 					<button class="c-hor-nav-toggler" type="button" data-target=".c-mega-menu">
 					<span class="c-line"></span>
@@ -68,20 +68,20 @@
          <nav class="c-mega-menu c-mega-menu-onepage c-fonts-sbold" data-onepage-animation-speed="700">
         <ul class="nav navbar-nav c-theme-nav">
                             <li class="c-active c-onepage-link">
-                                <a href="#estudio50" class="c-link" style="font-size: 12px;">Estudio50</a>
+                                <a href="#estudio50" class="c-link" style="font-size: 13px;">Estudio 50</a>
                             </li>
                             <li class="c-onepage-link">
-                                <a href="#catalog" class="c-link" style="font-size: 12px;">Services</a>
+                                <a href="#catalog" class="c-link" style="font-size: 13px;">Services</a>
                             </li>
                             <li class="c-onepage-link">
-                                <a href="#about" class="c-link" style="font-size: 12px;">About</a>
+                                <a href="#about" class="c-link" style="font-size: 13px;">About</a>
                             </li>
 
                             <li class="c-onepage-link">
-                                <a href="#partners" class="c-link" style="font-size: 12px;">Partners</a>
+                                <a href="#partners" class="c-link" style="font-size: 13px;">Partners</a>
                             </li>
                             <li class="c-onepage-link">
-                                <a href="#contact" class="c-link" style="font-size: 12px;">Contact</a>
+                                <a href="#contact" class="c-link" style="font-size: 13px;">Contact</a>
                             </li>
         </ul>
 
@@ -470,10 +470,28 @@
             document.getElementById("documento_seleccionado_id").value = documento_id;
             $('#evento-form').modal('toggle');
         }
+
+    function mostrar_modal_adicionar_talent(documento_id) {
+            document.getElementById("documento_seleccionado_id").value = documento_id;
+            $('#evento-talent-form').modal('toggle');
+        }
     function eliminar_producto_seleccionado(equipo,evento) {
             $.ajax({
                 type: 'GET',
                 url: '/equipamientos/'+equipo+'/eventos/eliminar/'+evento+'/',
+                data: $(this).serialize(),
+                        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                success: function () {
+                    location.reload()
+                }
+            });
+
+        }
+
+    function eliminar_talent_seleccionado(equipo,evento) {
+            $.ajax({
+                type: 'GET',
+                url: '/actores/'+equipo+'/eventos/eliminar/'+evento+'/',
                 data: $(this).serialize(),
                         csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
                 success: function () {

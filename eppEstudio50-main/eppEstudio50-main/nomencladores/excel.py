@@ -151,6 +151,7 @@ def load_excels():
                 print(ex.args)
                 print('\n')
 
+
     print('\n... CARGANDO EXCEL: marca.xlsx ...')
     path_excel = os.path.join(settings.BASE_DIR, 'nomencladores', 'excels', 'marca.xlsx')
     excel = xlrd.open_workbook(path_excel)
