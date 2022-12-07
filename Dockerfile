@@ -15,12 +15,12 @@ ENV ALLOWED_HOSTS="*"
 RUN python -m pip install --upgrade pip
 
 # copy the requirements to the root and install
-COPY eppEstudio50-main/eppEstudio50-main/requirements.txt /
+COPY eppEstudio50/requirements.txt /
 RUN  python -m pip install -r /requirements.txt
 
 # add the app folder
 RUN mkdir code
-ADD --chown=root:root eppEstudio50-main/eppEstudio50-main /code
+ADD --chown=root:root /eppEstudio50 /eppEstudio50
 #WORKDIR /code
 
 
