@@ -1,0 +1,17 @@
+---
+version: '2.2'
+services:
+  nginx:
+    container_name: nginx
+    build: .
+    #env_file:
+    #  - .env
+    ports:
+      - 80:80
+    volumes:
+      - ./static:/static     
+    networks:
+      - eppestudio_default  
+networks:     
+  eppestudio_default:
+    external: true

@@ -6,4 +6,5 @@ cd /code
 echo "Collecting Statics Files..."
 python manage.py collectstatic --noinput   
 echo "Starting server web..."
-python manage.py runserver 0.0.0.0:8000
+#python manage.py runserver 0.0.0.0:8000
+gunicorn epp.wsgi:application --bind 0.0.0.0:8000
