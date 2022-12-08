@@ -6,3 +6,4 @@ pgadmin
 .env
 .git
 .gitignore
+makefiles.bash
