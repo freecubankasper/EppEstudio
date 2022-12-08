@@ -27,6 +27,8 @@ services:
   #back-end Django+python using guicorn to run the web server
   web_python:
     build: .
+    labels:
+      - "traefik.http.routers.web_python.rule=Host(`web_python.docker.localhost`)"
     #restart: always
     #command: python manage.py runserver 0.0.0.0:8000 
     #volumes:
@@ -43,10 +45,12 @@ services:
   nginx:
     container_name: nginx
     build: ./nginx
+    labels:
+      - "traefik.http.routers.nginx.rule=Host(`nginx.docker.localhost`)"
     ports:
       - 80:80
     volumes:
       - ./nginx/static:/static
     depends_on:
       - web_python    
-  ##########################################################    
+  ##########################################################   
