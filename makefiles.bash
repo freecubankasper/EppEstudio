@@ -1,5 +1,6 @@
 #!/bin/sh
 cd data/db
+mkdir pg_commit_ts
 mkdir pg_tblspc
 mkdir pg_dynshmem
 mkdir pg_logical/mappings
