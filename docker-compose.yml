@@ -56,7 +56,8 @@ services:
     ports:
       - 80:80
     volumes:
-      - ./nginx/static:/static
+      - ./eppEstudio50/static:/static
+      - ./eppEstudio50/media:/media
     depends_on:
       - web_python    
   ##########################################################   
