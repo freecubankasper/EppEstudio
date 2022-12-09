@@ -9,7 +9,7 @@ ENV PIP_ROOT_USER_ACTION=ignore
 ENV PRODUCTION=1
 ENV SECRET_KEY=1234
 ENV DEBUG=0
-ENV ALLOWED_HOSTS="*"
+ENV ALLOWED_HOSTS="localhost, 72.167.50.223.nip.io"
 
 #RUN apt-get install nano -y
 RUN python -m pip install --upgrade pip
@@ -19,17 +19,17 @@ COPY eppEstudio50/requirements.txt /
 RUN  python -m pip install -r /requirements.txt
 
 # add the app folder
-RUN mkdir code
+RUN mkdir /eppEstudio50
 ADD --chown=root:root /eppEstudio50 /eppEstudio50
-#WORKDIR /code
+WORKDIR /eppEstudio50
 
 
 #Copy sh to run the server
 ADD runserver.sh /runserver.sh
-RUN chmod +x runserver.sh
+RUN chmod +x /runserver.sh
 
 #Run the server
-ENTRYPOINT [ "./runserver.sh" ]
+ENTRYPOINT [ "/runserver.sh" ]
 #RUN python manage.py collectstatic
 #CMD [ "python","manage.py","runserver","0.0.0.0:8000"]
 
