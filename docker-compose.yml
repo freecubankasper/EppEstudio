@@ -36,7 +36,13 @@ services:
     ports:
       - "8000:8000"
     env_file:
-      - .env  
+      - .env
+    environment:
+      # django envs
+      PRODUCTION: "1"
+      SECRET_KEY: xxzrf8mOUttvgswmYJ6UmIGzZAIHQgpg1S+O42j3n2quTLJTDeOZNA
+      DEBUG: "0"
+      ALLOWED_HOSTS: "localhost,72.167.50.223.nip.io"
     depends_on:
       - db_postgres
 ##########################################################
