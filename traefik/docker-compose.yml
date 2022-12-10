@@ -48,7 +48,7 @@
        - "traefik.http.routers.reverse-proxy.tls=true"
        - "traefik.http.routers.reverse-proxy.tls.certresolver=default-resolver"
       # Expose the api
-       - 'traefik.http.routers.reverse-proxy.rule=Host(`gw.72.167.50.223.nip.io`)'
+       - 'traefik.http.routers.reverse-proxy.rule=Host(`gw.estudio50habana.com`)'
        - "traefik.http.routers.reverse-proxy.entrypoints=web, websecure"
        
 
