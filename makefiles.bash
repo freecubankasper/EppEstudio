@@ -1,15 +1,15 @@
 #!/bin/sh
 cd data/db
-mkdir pg_commit_ts
-mkdir pg_tblspc
-mkdir pg_dynshmem
-mkdir pg_logical/mappings
-mkdir pg_logical/snapshots
-mkdir pg_notify
-mkdir pg_replslot
-mkdir pg_serial
-mkdir pg_snapshots
-mkdir pg_stat
-mkdir pg_tblspc
-mkdir pg_twophase
-mkdir pg_wal/archive_status
+mkdir -p pg_commit_ts
+mkdir -p pg_tblspc
+mkdir -p pg_dynshmem
+mkdir -p pg_logical/mappings
+mkdir -p pg_logical/snapshots
+mkdir -p pg_notify
+mkdir -p pg_replslot
+mkdir -p pg_serial
+mkdir -p pg_snapshots
+mkdir -p pg_stat
+mkdir -p pg_tblspc
+mkdir -p pg_twophase
+mkdir -p pg_wal/archive_status
