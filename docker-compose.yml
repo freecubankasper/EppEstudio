@@ -54,14 +54,13 @@ services:
     labels:
       # main traefik data
       - "traefik.enable=true"
-      - "traefik.http.routers.nginx.rule=Host(`web.estudio50habana.com`)"
+      - "traefik.http.routers.nginx.rule=Host(`web.72.167.50.223.nip.io`)"
       - "traefik.http.routers.nginx.entrypoints=websecure"
-      - "traefik.http.services.nginx.loadbalancer.server.port=80"
-      #- "traefik.http.routers.nginx.service=custom_port"
+      - "traefik.http.routers.nginx.service=custom_port"
       # custom service (non default port)
-      #- "traefik.http.services.custom_port.loadbalancer.server.port=80"
+      - "traefik.http.services.custom_port.loadbalancer.server.port=80"
       # auth
-      #- "traefik.http.routers.pgadmin.middlewares=chain-basic-auth-prod@file"
+      #- "traefik.http.routers.nginx.middlewares=chain-basic-auth-prod@file"
     #ports:  
     #  - 80:80
     volumes:
