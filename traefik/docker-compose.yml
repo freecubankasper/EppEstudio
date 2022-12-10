@@ -1,0 +1,75 @@
+
+ version: '3'
+
+ ############ NETWORKS ############
+ networks:
+   eppestudio_default:
+     external: true
+############# VOLUMES #############
+ volumes:
+   logs:
+   traefik-ssl-certs:
+   #pgadmin:
+   #mariadb_wiki:
+   #mediawiki_web:
+   #mediawiki_web_flagjam:
+   #portainer-data:
+
+
+ services:
+   reverse-proxy:
+     # The official v2 Traefik docker image
+     #image: traefik:v2.9
+     build: .
+     # Enables the web UI and tells Traefik to listen to docker
+     command: --api.insecure=true --providers.docker
+     ports:
+       # The HTTP port
+       - "80:80"
+       #Secure port 
+       - "443:443"
+       # The Web UI (enabled by --api.insecure=true)
+       - "8080:8080"
+     networks:
+       - eppestudio_default
+     volumes:
+       # So that Traefik can listen to the Docker events
+       - /var/run/docker.sock:/var/run/docker.sock
+       - traefik-ssl-certs:/ssl-certs
+       - logs:/logs
+     labels:
+       # enable traefik to expose the dashboard
+       - "traefik.enable=true"
+      # expose the api
+       - "traefik.http.routers.reverse-proxy.service=api@internal"
+      # only under autentication with some secure setting in place
+      #- "traefik.http.routers.api.middlewares=chain-basic-auth-prod@file"
+      # apply SSL layer
+       - "traefik.http.routers.reverse-proxy.tls=true"
+       - "traefik.http.routers.reverse-proxy.tls.certresolver=default-resolver"
+      # Expose the api
+       - 'traefik.http.routers.reverse-proxy.rule=Host(`gw.72.167.50.223.nip.io`)'
+       - "traefik.http.routers.reverse-proxy.entrypoints=web, websecure"
+       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

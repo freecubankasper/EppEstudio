@@ -21,6 +21,9 @@ WORKDIR /eppEstudio50
 ADD runserver.sh /runserver.sh
 RUN chmod +x /runserver.sh
 
+#Expose importants ports
+EXPOSE 8000
+
 #Run the server
 ENTRYPOINT [ "/runserver.sh" ]
 #RUN python manage.py collectstatic

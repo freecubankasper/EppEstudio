@@ -1,0 +1,47 @@
+---
+# HTTP Middlewares
+http:
+  middlewares:
+    # Authentication
+    basic-auth-dev:
+      basicAuth:
+        users:
+          - "devteam:$apr1$61T.xx7c$Nzeg5pvPtBB1l1aehX3Zy1"
+          - "sitelogin:$apr1$vk4iCCiS$KL8HNyVw5sv4Dz3OW.DJr/"
+        realm: "Dev Zone Authentication required"
+        headerField: "X-WebAuth-User"
+    basic-auth-prod:
+      basicAuth:
+        users:
+          - "prodteam:$apr1$3QYJBn68$EtmhDQAI3UxZIbesFOxA2/"
+        realm: "Prod Zone Authentication required"
+        headerField: "X-WebAuth-User"
+    # rate limit
+    rate-limit:
+      rateLimit:
+        average: 100
+        burst: 50
+    # secure headers
+    secure-headers:
+      headers:
+        accessControlAllowMethods:
+          - GET
+          - OPTIONS
+          - PUT
+          - POST
+          - DELETE
+        accessControlMaxAge: 100
+        hostsProxyHeaders: ["X-Forwarded-Host"]
+        stsSeconds: 63072000
+        stsIncludeSubdomains: true
+        stsPreload: true
+        forceSTSHeader: true
+        # customFrameOptionsValue: "allow-from shagotoursjamaica.com"
+        contentTypeNosniff: true
+        browserXssFilter: true
+        referrerPolicy: "same-origin"
+        PermissionsPolicy: "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"
+        customResponseHeaders:
+          X-Robots-Tag: "none,noarchive,nosnippet,notranslate,noimageindex,"
+          server: ""
+

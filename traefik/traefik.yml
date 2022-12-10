@@ -1,0 +1,68 @@
+---
+## traefik.yml
+
+# global configs
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: false
+
+# Traefik logs
+log:
+  level: WARN #(Default: error) DEBUG, INFO, WARN, ERROR, FATAL, PANIC
+  #filePath: os.Stdout
+
+# access logs
+accessLog:
+  filePath: /logs/traefik.log
+  # Format is either "json" or "common".
+  format: common
+  bufferingSize: 100 # Configuring a buffer of 100 lines
+  # filters:
+  #   statusCodes: 400-499
+
+# Enable API and dashboard
+api:
+  # Enable the API in insecure mode
+  insecure: true
+  # Enabled Dashboard
+  dashboard: true
+
+# providers
+providers:
+  docker:
+    endpoint: unix:///var/run/docker.sock
+    defaultRule: Host(`{{ normalize .Name }}.docker.localhost`)
+    exposedByDefault: false
+  file:
+    directory: "/configs"
+
+# EntryPoints definition
+entryPoints:
+  # http
+  web:
+    address: :80
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+  # https
+  websecure:
+    address: :443
+    # tls settings with the resolver
+    http:
+      tls:
+        certResolver: default-resolver
+        domains:
+          - main: "72.167.50.223.nip.io"
+            sans:
+              - "*.72.167.50.223.nip.io"
+        
+# certificate resolvers
+certificatesResolvers:
+  default-resolver:
+    acme:
+      email: rsm930123@gmail.com
+      storage: /ssl-certs/acme.json
+      httpChallenge:
+        entryPoint: web

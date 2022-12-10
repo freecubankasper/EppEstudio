@@ -1,0 +1,27 @@
+---
+# Middleware chains
+http:
+  middlewares:
+    # security and no auth
+    chain-no-auth:
+      chain:
+        middlewares:
+          - rate-limit
+          - secure-headers
+
+    # developer credentials + security
+    chain-basic-auth-dev:
+      chain:
+        middlewares:
+          - rate-limit
+          - secure-headers
+          - basic-auth-dev
+
+    # production credentials + security
+    chain-basic-auth-prod:
+      chain:
+        middlewares:
+          - rate-limit
+          - secure-headers
+          - basic-auth-prod
+
