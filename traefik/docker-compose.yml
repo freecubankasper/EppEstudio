@@ -2,9 +2,9 @@
  version: '3'
 
  ############ NETWORKS ############
- networks:
-   eppestudio_default:
-     external: true
+ #networks:
+   #eppestudio_default:
+     #external: true
 ############# VOLUMES #############
  volumes:
    logs:
@@ -30,8 +30,8 @@
        - "443:443"
        # The Web UI (enabled by --api.insecure=true)
        - "8080:8080"
-     networks:
-       - eppestudio_default
+     #networks:
+       #- eppestudio_default
      volumes:
        # So that Traefik can listen to the Docker events
        - /var/run/docker.sock:/var/run/docker.sock
