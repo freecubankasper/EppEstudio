@@ -9,13 +9,7 @@
  volumes:
    logs:
    traefik-ssl-certs:
-   #pgadmin:
-   #mariadb_wiki:
-   #mediawiki_web:
-   #mediawiki_web_flagjam:
-   #portainer-data:
-
-
+   
  services:
    traefik:
      # The official v2 Traefik docker image
@@ -50,12 +44,24 @@
       # Expose the api
        - 'traefik.http.routers.api.rule=Host(`gw.72.167.50.223.nip.io`)'
        - "traefik.http.routers.api.entrypoints=web, websecure"
+
+   dozzle:
+      container_name: dozzle
+      image: amir20/dozzle:latest
+      networks:
+      - eppestudio_default
+      volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      ports:
+      - 9999:8080
+      #labels:
+      # main traefik data
+       # - "traefik.enable=true"
+        #- "traefik.http.routers.dozzle.rule=Host(`logs.72.167.50.223.nip.io`)"
+        #- "traefik.http.routers.dozzle.entrypoints=websecure"
+      # auth
+       # - "traefik.http.routers.dozzle.middlewares=chain-basic-auth-prod@file"   
        
-
-
-
-
-
 
 
 
