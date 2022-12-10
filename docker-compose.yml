@@ -54,7 +54,7 @@ services:
     labels:
       # main traefik data
       - "traefik.enable=true"
-      - "traefik.http.routers.nginx.rule=Host(`page.72.167.50.223.nip.io`)"
+      - "traefik.http.routers.nginx.rule=Host(`web.estudio50habana.com`)"
       - "traefik.http.routers.nginx.entrypoints=websecure"
       - "traefik.http.services.nginx.loadbalancer.server.port=80"
       #- "traefik.http.routers.nginx.service=custom_port"
