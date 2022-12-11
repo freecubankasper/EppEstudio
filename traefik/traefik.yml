@@ -57,7 +57,8 @@ entryPoints:
           #- main: "estudio50habana.com"
           - main: "72.167.50.223.nip.io"
             sans:
-              - "*.72.167.50.223.nip.io"
+              - "gw.72.167.50.223.nip.io"
+              - "web.72.167.50.223.nip.io"
               
         
 # certificate resolvers
