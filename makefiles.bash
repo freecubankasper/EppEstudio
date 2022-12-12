@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 cd data/db
 mkdir -p pg_commit_ts
 mkdir -p pg_tblspc
@@ -18,4 +19,5 @@ docker restart eppestudio_db_postgres_1
 sleep 2
 echo "Done!"
 sleep 2
+exit
 
