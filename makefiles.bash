@@ -13,3 +13,9 @@ mkdir -p pg_stat
 mkdir -p pg_tblspc
 mkdir -p pg_twophase
 mkdir -p pg_wal/archive_status
+echo "Restarting db_postgres container..."
+docker restart eppestudio_db_postgres_1	
+sleep 2
+echo "Done!"
+sleep 2
+
