@@ -6245,7 +6245,6 @@ h1 {
 .c-layout-footer.c-layout-footer-2 {
   padding: 100px 0;
   margin: 0;
-  background-image: url(../../../base/img/content/backgrounds/bg_footer_1.jpg);
   background-repeat: no-repeat;
   background-position: right bottom;
   background-size: cover; }
@@ -6265,7 +6264,8 @@ h1 {
       margin-bottom: 30px; }
     .c-layout-footer.c-layout-footer-2 .c-container > .c-content-title-1 > p {
       margin-bottom: 30px;
-      text-transform: none; }
+      text-transform: none;
+      color: #ffffff;}
       .c-layout-footer.c-layout-footer-2 .c-container > .c-content-title-1 > p.c-ask {
         color: #616a73; }
     .c-layout-footer.c-layout-footer-2 .c-container > .c-links {

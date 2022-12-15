@@ -1,2 +1,0 @@
-release: python manage.py migrate;python manage.py create_user_admin; python manage.py load
-web: gunicorn epp.wsgi --log-file -

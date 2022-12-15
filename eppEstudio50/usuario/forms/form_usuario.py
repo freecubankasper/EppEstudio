@@ -23,9 +23,6 @@ class RegistrarUsuarioForm(UserCreationForm):
             'password2',
             'groups',
             'telefono',
-            'municipio',
-            'provincia',
-            'entidad',
             'img_usuario',
         ]
 
@@ -37,9 +34,6 @@ class RegistrarUsuarioForm(UserCreationForm):
             'password1': forms.PasswordInput(attrs={'class': 'form-control'}),
             'password2': forms.PasswordInput(attrs={'class': 'form-control'}),
             'groups': forms.SelectMultiple(attrs={'class': 'form-control'}),
-            'municipio': forms.Select(attrs={'class': 'form-control'}),
-            'provincia': forms.Select(attrs={'class': 'form-control'}),
-            'entidad': forms.Select(attrs={'class': 'form-control'}),
             'telefono': forms.TextInput(attrs={'class': 'form-control', 'type': 'number', 'min': 0}),
         }
 
@@ -75,9 +69,6 @@ class ModificarUsuarioForm(forms.ModelForm):
             'email',
             'telefono',
             'groups',
-            'municipio',
-            'provincia',
-            'entidad',
             'img_usuario',
         ]
         widgets = {
@@ -86,9 +77,6 @@ class ModificarUsuarioForm(forms.ModelForm):
             'username': forms.TextInput(attrs={'class': 'form-control tooltips'}),
             'email': forms.EmailInput(attrs={'class': 'form-control tooltips'}),
             'groups': forms.SelectMultiple(attrs={'class': 'form-control'}),
-            'municipio': forms.Select(attrs={'class': 'form-control'}),
-            'provincia': forms.Select(attrs={'class': 'form-control'}),
-            'entidad': forms.Select(attrs={'class': 'form-control'}),
             'telefono': forms.TextInput(attrs={'class': 'form-control', 'type': 'number', 'min': 0}),
         }
         labels = {
@@ -107,7 +95,6 @@ class ModificarUsuarioForm(forms.ModelForm):
         self.fields['groups'].queryset = Group.objects.all()
         self.fields['municipio'].queryset = Municipio.objects.filter(activo=True).order_by('nombre')
         self.fields['provincia'].queryset = Provincia.objects.filter(activo=True).order_by('nombre')
-        self.fields['entidad'].queryset = Entidad.objects.filter(activo=True).order_by('nombre')
 
 
 class ModificarContrasenaUsuarioActualForm(forms.Form):
@@ -134,10 +121,8 @@ class ModificarContrasenaUsuarioActualForm(forms.Form):
     def clean(self):
         password1 = self.cleaned_data.get('password1')
         password2 = self.cleaned_data.get('password2')
-
         if password1 and password2 and password1 != password2:
             self.add_error('password2', "Los dos campos de contraseña no coinciden.")
-
         return self.cleaned_data
 
     def clean_password2(self):

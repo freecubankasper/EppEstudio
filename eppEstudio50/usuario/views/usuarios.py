@@ -2,6 +2,7 @@
 import datetime
 from django.contrib import messages
 from django.contrib.auth.models import Group
+from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from django.shortcuts import render, get_object_or_404
@@ -19,6 +20,7 @@ from django.views.generic import (
     DetailView)
 
 from nomencladores.models import Municipio, Entidad
+from nomencladores.models.pais import Pais
 from usuario.forms.form_usuario import (
     RegistrarUsuarioForm,
     ModificarUsuarioForm,
@@ -344,3 +346,23 @@ class DetallesUsuarioView(PermissionRequiredMixin, DetailView):
             {'name': 'Usuarios', 'href': reverse_lazy('usuarios')}
         ]
         return context
+
+class CrearUsuarioFrontView(TemplateView):
+    def get(self, request, *args, **kwargs):
+        if self.request.method=='GET':
+            first_name = request.GET.get('first_name')
+            last_name = request.GET.get('last_name')
+            email = request.GET.get('email')
+            telefono = request.GET.get('phone')
+            pais = request.GET.get('pais')
+            ciudad = request.GET.get('ciudad')
+            password = request.GET.get('password')
+            user = request.GET.get('user')
+            pais = Pais.objects.get(id=pais)
+            user= User.objects.create(first_name=first_name, last_name=last_name,email=email,telefono=telefono,pais=pais,ciudad=ciudad,password=password,username=user)
+            user.groups.add(Group.objects.get(id=3))
+            user.set_password(password)
+            user.save()
+            return HttpResponseRedirect(reverse_lazy('inicio'))
+
+

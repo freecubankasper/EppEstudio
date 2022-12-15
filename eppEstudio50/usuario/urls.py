@@ -8,6 +8,7 @@ urlpatterns = [
 
     path('usuarios/', usuarios.ListadoUsuariosView.as_view(), name='usuarios'),
     path('usuarios/registrar/', usuarios.RegistrarUsuarioView.as_view(), name='registrar_usuario'),
+    path('usuarios/registrar_front/', usuarios.CrearUsuarioFrontView.as_view(), name='registrar_usuario_front'),
     path('usuarios/modificar/<int:pk>/', usuarios.ModificarUsuarioView.as_view(), name='modificar_usuario'),
     path('usuarios/modificar_contrasena/<int:pk>/', usuarios.ModificarContrasenaView.as_view(), name='modificar_contrasena'),
     path('usuarios/modificar_contrasena_usuario_actual/<int:pk>/', usuarios.ModificarContrasenaUsuarioActualView.as_view(), name='modificar_contrasena_usuario_actual'),

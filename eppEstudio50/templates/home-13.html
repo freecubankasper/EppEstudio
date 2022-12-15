@@ -1,8 +1,6 @@
 {% extends 'baseproyect.html' %}
 {% load static %}
 {% block content %}
-	<div class="c-layout-page">
-
 <section id="estudio50" class="c-layout-revo-slider c-layout-revo-slider-9" dir="ltr">
 	<div class="tp-banner-container tp-fullscreen tp-fullscreen-mobile">
 		<div class="tp-banner rev_slider" data-version="5.0">
@@ -22,9 +20,8 @@
                         data-aspectratio="16:9"
                         data-autoplay="true"
                         data-autoplayonlyfirsttime="true"
-                        data-nextslideatend="false"
-                    ></div>
-					<!--BEGIN: ACTION BUTTON -->
+                        data-nextslideatend="false">
+                    </div>
 					<div class="tp-caption randomrotateout tp-resizeme"
 						data-x="center"
 						data-y="center"
@@ -33,13 +30,12 @@
 						data-speed="500"
 						data-start="2000"
 						data-transform_in="x:0;y:0;z:0;rotationX:0.5;rotationY:0;rotationZ:0;scaleX:0.75;scaleY:0.75;skewX:0;skewY:0;opacity:0;s:500;e:Back.easeInOut;"
-						data-transform_out="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0.75;scaleY:0.75;skewX:0;skewY:0;opacity:0;s:900;e:Back.easeInOut;" >
+						data-transform_out="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0.75;scaleY:0.75;skewX:0;skewY:0;opacity:0;s:600;e:Back.easeInOut;" >
 						<h5 class="c-main-title c-font-20 c-font-bold c-font-white ">
                             Hi. We're <strong style="color: #ff0000">Estudio50</strong><br>
 						</h5>
-                        <p class="c-font-white">Full-service video production company</p>
-                        <p class="c-font-white">in Havana since 2012</p>
-
+                        <h5 class="c-font-white">Full-service video production company</h5>
+                        <h5 class="c-font-white">in Havana since 2012</h5>
                         <a href="{% url 'about' %}"  class="c-action-btn btn c-font-white " style="color: #FFFFFF">Know more  ></a>
                     </div>
                 </li>
@@ -49,8 +45,9 @@
     </div>
 </section>
 
+
 <section id="catalog" class="c-content-box c-size-sm c-bg-white">
-		{% include 'catalog.html' %}
+		{% include 'catalog-section.html' %}
 </section>
 
 <section id="about" class="c-content-box c-size-lg c-bg-white">
@@ -111,7 +108,7 @@
                 <div class="container">
                     <div class="c-content-bar-4">
                         <strong style="color: #ff0000" class=" c-font-bold">Estudio50</strong><p class="c-font-white">Do you want to be part of our team?</p>
-                        <a href="{% url 'partners' %}"  class="c-action-btn btn c-font-white " style="color: #FFFFFF">Work Together  ></a>
+                        <a href="{% url 'contact' %}"  class="c-action-btn btn c-font-white " style="color: #FFFFFF">Work Together  ></a>
 
                     </div>
                 </div>
@@ -140,6 +137,4 @@
 </div>
 </section>
 
-
-    </div>
 {% endblock %}

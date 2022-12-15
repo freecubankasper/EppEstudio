@@ -144,6 +144,11 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
+# Email
+EMAIL_HOST = 'estudio50habana.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'estudio50habana@estudio50habana.com'
+EMAIL_HOST_PASSWORD = 'Estudio502022***'
 
 # Fecha de creado el sistema
 CREATED = 2022

@@ -4,15 +4,27 @@
 {% load bootstrap %}
 
 {% block content %}
-    <img src="{% static 'assets/base/img/layout/logos/about.png' %}" alt="Estudio50Habana" class="c-desktop-logo"
-         style="width: 100%;height: 50%">
+    <div class="c-content-box c-size-xg c-bg-parallax" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url({% static 'img/logos/fotobannerabajo.jpg' %});" >
+        <div class="row">
+            <div class="col-sm-1 col-md-3 col-xs-1"></div>
+            <div class="col-sm-11 col-md-3 col-xs-10">
+                            <div class="c-content-bar-desc">
+                                <br><br>
+                                <br><br>
+                                <strong style="color: #ff0000" class=" c-font-bold">My Proyects</strong><p class="c-font-white">Textos sobre mis proyectos</p>
+                                <a href="" class=" c-btn-square c-font-sbold center" data-toggle="modal"
+                   data-target="#proyect-form" style="background-color: red;font-size: 15px; line-height: 14px;">CREATE PROJECT</a>
+                            </div>
+            </div>
+            <div class="col-sm-1 col-md-2 col-xs-1"></div>
+            <div class="col-sm-3 col-md-4"></div>
+
+        </div>
+    </div>
     <div class="container">
         <ul class="c-shop-filter-search-1 list-unstyled">
             <li></li>
             <li>
-                <a href="" class="c-btn-icon c-btn-square c-font-sbold center" data-toggle="modal"
-                   data-target="#proyect-form" style="background-color: red;font-size: 15px;   line-height: 14px;">CREAR
-                    PROYECTO</a>
             </li>
             <li>
                 <form method="GET">
@@ -79,8 +91,20 @@
                                                         {% if documento.precio_aprobacion %}
                                                             <form action="{% url 'descargar_proyect' documento.id %}">
                                                                 <button type="submit"
+                                                                        data-toggle="tooltip" data-placement="top" title="Download Call Sheet"
                                                                         class="btn btn-default c-btn-uppercase c-btn-bold">
                                                                     <i class="glyphicon glyphicon-download"></i>
+                                                                </button>
+                                                            </form>
+                                                        {% endif %}
+                                                    </div>
+                                                <div class="col-md-3 col-xs-6 col-lg-3">
+                                                        {% if documento.precio_aprobacion %}
+                                                            <form action="{% url 'descargar_factura' documento.id %}">
+                                                                <button type="submit"
+                                                                        data-toggle="tooltip" data-placement="top" title="invoice"
+                                                                        class="btn btn-default c-btn-uppercase c-btn-bold">
+                                                                    <i class="glyphicon glyphicon-usd"></i>
                                                                 </button>
                                                             </form>
                                                         {% endif %}
@@ -89,6 +113,7 @@
 
                                                         <form action="{% url 'calendario' documento.id %}">
                                                             <button type="submit"
+                                                                    data-toggle="tooltip" data-placement="top" title="View"
                                                                     class="btn btn-default c-btn-uppercase c-btn-bold">
                                                                 <i class="glyphicon glyphicon-eye-open"></i>
                                                             </button>

@@ -6142,7 +6142,8 @@ h1 {
       margin-bottom: 30px; }
     .c-layout-footer.c-layout-footer-2 .c-container > .c-content-title-1 > p {
       margin-bottom: 30px;
-      text-transform: none; }
+      text-transform: none;
+      color: #ffffff;}
       .c-layout-footer.c-layout-footer-2 .c-container > .c-content-title-1 > p.c-ask {
         color: #616a73; }
     .c-layout-footer.c-layout-footer-2 .c-container > .c-links {

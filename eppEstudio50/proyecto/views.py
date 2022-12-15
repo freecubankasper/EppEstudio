@@ -8,7 +8,9 @@ from django.views import View
 from django.template.loader import get_template
 from django.views.generic import ListView, CreateView, UpdateView, TemplateView, DetailView
 from core.utiles.permission_required import PermissionRequiredMixin
+from core.utiles.tests import send_email, send_email_proyecto
 from equipo_proteccion_personal.utiles.pdfs import to_base64
+from evento.models.evento_equipamiento import EventoEquipamiento
 from llamado.models.llamado_proyecto import LlamadoProyecto
 from nomencladores.models.categoria import Categoria
 from proyecto.forms.form_proyecto import ProyectoForm
@@ -20,10 +22,9 @@ import os
 from epp import settings
 
 
-
 class Gestionar_proyectoView(TemplateView):
     template_name = 'gestionar_proyecto.html'
-    numeros_prefactura=Categoria.objects.all()
+    numeros_prefactura = Categoria.objects.all()
 
     def get(self, request, **kwargs):
         context = super(Gestionar_proyectoView).get_context_data(**kwargs)
@@ -33,21 +34,23 @@ class Gestionar_proyectoView(TemplateView):
 
 class Crear_proyectoView(View):
 
-    def get(self, request, *args, **kwargs):
-        categoriahtml = request.GET.get('categoria')
-        categoria= Categoria.objects.get(id=categoriahtml)
+    def post(self, request, *args, **kwargs):
+        categoriahtml = request.POST.get('categoria')
+        categoria = Categoria.objects.get(id=categoriahtml)
         usuario = self.request.user
-        nombre = request.GET.get('proyecto_nombre')
-        cliente = request.GET.get('proyecto_cliente')
+        nombre = request.POST.get('proyecto_nombre')
+        cliente = request.POST.get('proyecto_cliente')
         equipos_prefactura = Proyecto.objects.filter(nombre=nombre, activo=True)
         if equipos_prefactura.exists():
             messages.add_message(self.request, messages.ERROR,
                                  "Existe un proyecto con ese nombre.")
             return HttpResponseRedirect(reverse_lazy('listado_proyect'))
-        fecha_inicio = request.GET.get('id_fecha_inicio')
-        fecha_fin = request.GET.get('id_fecha_fin')
-        proyecto = Proyecto.objects.create(nombre=nombre, cliente=cliente, fecha_inicio=fecha_inicio, fecha_fin=fecha_fin,categoria=categoria, usuario=usuario)
+        fecha_inicio = request.POST.get('id_fecha_inicio')
+        fecha_fin = request.POST.get('id_fecha_fin')
+        proyecto = Proyecto.objects.create(nombre=nombre, cliente=cliente, fecha_inicio=fecha_inicio,
+                                           fecha_fin=fecha_fin, categoria=categoria, usuario=usuario)
         idusado = str(proyecto.id)
+        send_email_proyecto(usuario, nombre, categoriahtml)
         # return HttpResponseRedirect(reverse_lazy('calendario/'+idusado+'/eventos/'))
 
         return HttpResponseRedirect(reverse_lazy('calendario', kwargs={'proyecto_id': idusado}))
@@ -209,7 +212,8 @@ class ActualizarEstadoProyectoView(PermissionRequiredMixin, TemplateView):
         context['activar_proyecto'] = True
         context['path'] = [
             {'name': 'Proyectos', 'href': reverse_lazy('listado_proyect')},
-            {'name': 'Actualizar estado de proyecto', 'href': reverse_lazy('actualizar_estado_proyecto', kwargs={'pk': self.kwargs['pk']})},
+            {'name': 'Actualizar estado de proyecto',
+             'href': reverse_lazy('actualizar_estado_proyecto', kwargs={'pk': self.kwargs['pk']})},
         ]
         proyecto = Proyecto.objects.get(id=self.kwargs['pk'])
         estados = []
@@ -231,19 +235,21 @@ class ActualizarEstadoProyectoView(PermissionRequiredMixin, TemplateView):
         proyecto.precio_aprobacion = monto
         proyecto.save()
         HistorialEstadoProyecto.objects.create(proyecto=proyecto, estado_proyecto=estado)
+        send_email(estado, proyecto.nombre)
         messages.add_message(request, messages.SUCCESS, "Estado del proyecto actualizado con éxito.")
         return redirect(reverse("listado_proyect"))
+
+
 class ActualizarCalendarioEstadoProyectoView(TemplateView):
     def post(self, request, *args, **kwargs):
-        if self.request.method=='POST':
+        if self.request.method == 'POST':
             nombre = request.POST.get('id_observaciones')
 
-            pk=self.kwargs['pk']
+            pk = self.kwargs['pk']
             proyecto = Proyecto.objects.filter(id=pk).first()
-            proyecto.observaciones_aprobacion=nombre
-            proyecto.estado_proyecto='SolicitudRevision'
+            proyecto.observaciones_aprobacion = nombre
+            proyecto.estado_proyecto = 'SolicitudRevision'
             proyecto.save()
-
 
             HistorialEstadoProyecto.objects.create(proyecto=proyecto, estado_proyecto=proyecto.estado_proyecto)
 
@@ -269,9 +275,47 @@ class ProyectoPDFView(PermissionRequiredMixin, View):
                 'title': title,
                 'proyecto': proyecto,
                 'llamados': llamados,
-                'header': to_base64(os.path.join(settings.BASE_DIR, 'static', 'assets', 'base', 'img', 'layout', 'logos', 'logo-5negrohabana.png')),
+                'eventos': eventos,
+                'header': to_base64(
+                    os.path.join(settings.BASE_DIR, 'static', 'assets', 'base', 'img', 'layout', 'logos',
+                                 'logo-5negrohabana.png')),
                 'PROD': settings.PRODUCTION,
 
+            }
+            response = HttpResponse(content_type='application/pdf')
+            response['Content-Disposition'] = f'attachment; filename="{title}.pdf"'
+            template = get_template(template_path)
+            html = template.render(data)
+
+            # create a pdf
+            pisa_status = pisa.CreatePDF(
+                html, dest=response)
+
+            if pisa_status.err:
+                return HttpResponse('Nosotros tuvimos algunos errores <pre>' + html + '</pre>')
+            return response
+
+
+class FacturaProyectoPDFView(PermissionRequiredMixin, View):
+    permission = 'evento.export_eventosproyecto'
+    def get(self, request, *args, **kwargs):
+        proyecto_id = self.kwargs['proyecto_id']
+        proyecto = Proyecto.objects.filter(id=proyecto_id).first()
+        llamados = LlamadoProyecto.objects.filter(proyecto_id=proyecto_id)
+        eventos = EventoEquipamiento.objects.filter(llamado__proyecto=proyecto)
+        template_path = 'pdfs/factura_proyecto.html'
+        if not request.user.has_perm('evento.export_eventosproyecto'):
+            raise PermissionDenied
+        for evento in eventos:
+            title = f'{proyecto.nombre}'
+            data = {
+                'title': title,
+                'proyecto': proyecto,
+                'eventos': eventos,
+                'header': to_base64(
+                    os.path.join(settings.BASE_DIR, 'static', 'assets', 'base', 'img', 'layout', 'logos',
+                                 'logo-5negrohabana.png')),
+                'PROD': settings.PRODUCTION,
             }
             response = HttpResponse(content_type='application/pdf')
             response['Content-Disposition'] = f'attachment; filename="{title}.pdf"'

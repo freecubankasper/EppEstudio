@@ -1,0 +1,107 @@
+{% extends 'baseproyect2blanco.html' %}
+{% load static %}
+{% block styles %}
+    <link href="{% static 'general/bootstrap-sweetalert/sweetalert.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+{% load bootstrap %}
+
+{% block content %}
+    <div class="c-layout-footer c-layout-footer-2 c-option-2"
+         style="background-image: url({% static 'assets/base/img/layout/logos/E50_Contact_Imagen_A.jpg' %})">
+        <div class="container">
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-5">
+                        <div class=" c-left">
+                            <div class="c-content-title-1">
+                                <br>
+                                <br>
+                                <h3 class="c-font">Hi. We're <span style="color: red">Estudio50</span></h3>
+                                <p style="margin-bottom: -20px">Leave us a note and some info about your project and
+                                    we'll</p>
+                                <p>get back to you with our signature lightning quick response time.</p>
+                                <p style="margin-bottom: -20px">+1 (305)801--6620</p>
+                                <p>info@artexproductions.com</p>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="c-content-title-1 ">
+                                        <h4 class="c-font" style="color: red">Havana</h4>
+                                        <p class="c-margin-t-15">Calle Lugareño entre Carlos III y Almendares, La
+                                            Habana</p>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="c-content-title-1">
+                                        <h4 class="c-font" style="color: red">Roma</h4>
+                                        <p class="c-margin-t-15">calle tal entre algo</p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 c-margin-t-80">
+                        <form method="POST" action="{% url 'contactemail' %}">{% csrf_token %}
+                            <div class=" row">
+                                <div class="form-group row">
+                                    <div class=" c-form-wrap col-md-5">
+                                        <input type="text" name="first_name" class="form-control c-square" placeholder="First Name">
+                                    </div>
+                                    <div class=" c-form-wrap col-md-5">
+                                        <input type="text" name="last_name" class="form-control c-square" placeholder="Last Name">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="c-form-wrap col-md-5">
+                                        <input type="text" name="email" class="form-control c-square" placeholder="Email">
+                                    </div>
+                                    <div class=" c-form-wrap col-md-5">
+                                        <input type="text" name="phone" class="form-control c-square" placeholder="Phone">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class=" c-form-wrap col-md-10">
+                                        <input type="text" name="budget" class="form-control c-square" placeholder="Budget">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class=" c-form-wrap col-md-10">
+                                        <textarea name="message" type="text" class="form-control c-square"
+                                                  placeholder="Message"></textarea>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn c-theme-btn btn-md   c-btn-square c-btn-login"
+                                        style="background: none;color: red;border-color: red;">Send
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{#    {% if messages %}#}
+{##}
+{#    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>#}
+{#        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}#}
+{#        <div class="alert alert-info alert-dismissible" role="alert">#}
+{#					Message sended#}
+{#					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>#}
+{#				</div>#}
+{#    </li>#}
+{##}
+{#{% endif %}#}
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'general/block-ui/jquery.blockUI.js' %}" type="text/javascript"></script>
+    <script src="{% static 'general/bootstrap-sweetalert/sweetalert.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'general/vendors/js/ui-sweetalert.min.js' %}" type="text/javascript"></script>
+{% endblock %}

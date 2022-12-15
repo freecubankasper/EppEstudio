@@ -2,8 +2,21 @@
 
 {% load static %}
 {% block content %}
-	<div class="c-layout-page">
-<img src="{% static 'assets/base/img/layout/logos/rojo.jpg'%}" alt="Estudio50Habana" class="c-desktop-logo" style="width: 100%;height: 50%;">
+    <div class="c-content-box c-size-xg c-bg-parallax" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url({% static 'assets/base/img/layout/logos/rojo.jpg' %});" >
+        <div class="row">
+            <div class="col-sm-1 col-md-3 col-xs-1"></div>
+            <div class="col-sm-11 col-md-3 col-xs-10">
+                            <div class="c-content-bar-desc">
+                                <br><br>
+                                <br><br>
+                                <strong style="color: #ff0000" class=" c-font-bold">Services</strong><p class="c-font-white">Desde su fundacion en 2012, nuestros servicios incluyen la fotografia, la realizacion de videoclips, peliculas y programas de television, la organizacion de multiples eventos, entre otros.</p>
+                            </div>
+            </div>
+            <div class="col-sm-1 col-md-2 col-xs-1"></div>
+            <div class="col-sm-3 col-md-4"></div>
+
+        </div>
+    </div>
 <div class="c-content-box c-size-xg c-bg-white" style="border-top: 2px solid #FFFFFF">
 	<div class="container">
 		<!-- Begin: Testimonals 1 component -->
@@ -122,5 +135,5 @@ El grupo s con oficinas y/o operadores en Nápoles, Miami, Nueva York, La Habana
         <strong></strong></div>
 
 
-</div></section></div></div></div></div>
+</div></section></div></div></div>
 {% endblock %}

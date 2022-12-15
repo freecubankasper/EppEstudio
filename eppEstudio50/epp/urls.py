@@ -25,7 +25,7 @@ from core.views.especialidades import EspecialidadesView
 from core.views.gestionlista import Adicionarmilista
 from core.views.inicia import IniciaView
 from core.views.inicio import InicioView
-from core.views.about import AboutView
+from core.views.about import AboutView, ContactView, ContactEmailView
 from core.views.catalog import CatalogView
 from core.views.misproyectos import MisProyectosView
 from core.views.talent import TalentView
@@ -44,26 +44,26 @@ urlpatterns = [
          name='inicio'),
     path('about/', AboutView.as_view(),
          name='about'),
+    path('contact/', ContactView.as_view(),
+         name='contact'),
+    path('contactemail/', ContactEmailView.as_view(),
+         name='contactemail'),
     path('talent/', TalentView.as_view(),
          name='talent'),
     path('proyects/', MisProyectosView.as_view(),
          name='proyects'),
     path('equipment/', EquipmentView.as_view(),
          name='equipment'),
+    path('catalog/', CatalogView.as_view(),
+         name='catalog'),
     path('especialidades/', EspecialidadesView.as_view(),
          name='especialidades'),
     path('partners/', PartnersView.as_view(),
          name='partners'),
-    # path('calendario/', CalendarioView.as_view(),
-    #      name='calendario'),
     path('calendario/<int:proyecto_id>/eventos/', CalendarioView.as_view(),
          name='calendario'),
     path('adicionarmilista/<int:producto_id>/<int:subcategoria>/<str:nombre>/<int:cantidad>', Adicionarmilista.as_view(),
          name='adicionar_milista'),
-
-
-    # path('talentdetail/<integer:inc_number>/', TalentdetailView.as_view() name='talentdetail'),
-    # path('iniciar-sesion/', MyLoginView.as_view(), name='iniciar_sesion'),
     path('cerrar-sesion/', logout_then_login, name='cerrar_sesion'),
     path('inicio-admin', InicioView.as_view(), name='inicio_admin'),
 
@@ -84,9 +84,6 @@ urlpatterns = [
     path('crear_modal__detalles_equipamiento/', ajax_views.DetallesEquipamientoAjaxView.as_view()),
     path('crear_modal_detalles_talento/', ajax_views.DetallesTalentoAjaxView.as_view()),
     path('adicionarequipamiento/<int:proyecto_id>/<int:llamado_id>', ajax_views.DetallesEquipamientoAjaxView.as_view()),
-
-    # path('', include('core.urls')),
-
 ]
 
 
