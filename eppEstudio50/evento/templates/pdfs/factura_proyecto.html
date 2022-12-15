@@ -1,250 +1,100 @@
 {% load static %}
-<!DOCTYPE html>
 <html>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-<style>
-    .factura {
-        table-layout: fixed;
-    }
+<head>
 
-    .fact-info > div > h5 {
-        font-weight: bold;
-    }
-
-    .factura > thead {
-        border-top: solid 3px #000;
-        border-bottom: 3px solid #000;
-    }
-
-    .factura > thead > tr > th:nth-child(2), .factura > tbod > tr > td:nth-child(2) {
-        width: 300px;
-    }
-
-    .factura > thead > tr > th:nth-child(n+3) {
-        text-align: right;
-    }
-
-    .factura > tbody > tr > td:nth-child(n+3) {
-        text-align: right;
-    }
-
-    .factura > tfoot > tr > th, .factura > tfoot > tr > th:nth-child(n+3) {
-        font-size: 24px;
-        text-align: right;
-    }
-
-    .cond {
-        border-top: solid 2px #000;
-    }
-
-</style>
+</head>
 <body>
-{#    <div class="title_invoice">#}
-{##}
-{#        <table style="border: 1px solid black;">#}
-{#            <tr>#}
-{#                <td rowspan="3" style="text-align: center; width: 250px">#}
-{#                    <img class="logo" src="data:image/png;base64,{{ header }}" alt="Logo">#}
-{#                </td>#}
-{#                <td rowspan="3" style="text-align: center; width: 100px; font-size: 200%; font-style: normal;">#}
-{#                    <strong>{{ title }}</strong>#}
-{#                </td>#}
-{#                <td colspan="4" style="text-align: left; vertical-align: bottom; padding: 0.1em; font-size: 150%; height: 40px; width: 300px">#}
-{#                    <strong>Número:</strong>#}
-{#                </td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td colspan="4"#}
-{#                    style="text-align: left; vertical-align: top; padding: 0.1em; font-size: 150%; height: 40px">#}
-{#                    <strong>Fecha: {{ fecha_actual }}</strong></td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td colspan="4" style="text-align: center; vertical-align: bottom;font-size: 150%; height: 25px">#}
-{#                    <strong>DATOS DEL CLIENTE</strong></td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td rowspan="2" colspan="2"#}
-{#                    style="text-align: left; vertical-align: top; padding: 0.1em; font-size: 140%;">#}
-{#                    <strong>Dirección: {{ componentes.direccion }} Código REEUP: {{ componentes.codigo }}</strong></td>#}
-{#                <td colspan="4"#}
-{#                    style="text-align: left; vertical-align: top; padding: 0.1em; font-size: 140%; height: 35px">#}
-{#                    <strong>NOMBRE: {{ numero_prefactura.entidad.nombre }}</strong></td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td colspan="4"#}
-{#                    style="text-align: left; vertical-align: top; padding: 0.1em; font-size: 140%; height: 35px">#}
-{#                    <strong>Dirección: {{ numero_prefactura.entidad.direccion }}</strong></td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td colspan="2"#}
-{#                    style="text-align: left; vertical-align: top; padding: 0.1em; font-size: 140%; height: 50px">#}
-{#                    <strong>Número Cuenta Bancaria CUP: {{ componentes.numero_cuenta }}#}
-{#                        Titular: {{ componentes.titular }}</strong></td>#}
-{#                <td colspan="4" style="text-align: left; vertical-align: top; padding: 0.1em; font-size: 140%;">#}
-{#                    {% if numero_prefactura.entidad.num_lic_comercial_camara_comercio %}<strong>No. Licencia#}
-{#                        Comercial: {{ numero_prefactura.entidad.num_lic_comercial_camara_comercio }}</strong>{% endif %}#}
-{#                    {% if numero_prefactura.entidad.num_acta_protocolizacion %}<strong>Acta de#}
-{#                        Protocolización: {{ numero_prefactura.entidad.num_acta_protocolizacion }}</strong>{% endif %}#}
-{#                    {% if numero_prefactura.entidad.cod_reeup %}#}
-{#                        <strong>Código REEUP: {{ numero_prefactura.entidad.cod_reeup }}</strong>{% endif %}</td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td colspan="2"#}
-{#                    style="text-align: left; vertical-align: top; padding: 0.1em; font-size: 160%; height: 40px">#}
-{#                    <strong>Teléfono: {{ componentes.telefono }} Email: {{ componentes.email }}</strong></td>#}
-{#                <td colspan="4" style="text-align: left; vertical-align: top; padding: 0.1em; font-size: 140%;"><strong>No.#}
-{#                    Contrato: {{ numero_prefactura.entidad.num_contrato }}</strong></td>#}
-{#            </tr>#}
-{#            <thead>#}
-{#            <tr>#}
-{#                <td style="text-align: center; width: 120px; height: 25px; font-size: 120%;"><strong>No. Registro#}
-{#                    EPP</strong></td>#}
-{#                <td style="text-align: center; width: 300px; font-size: 120%;"><strong>DESCRIPCION#}
-{#                    (MODELO/REFERENCIA)</strong></td>#}
-{#                <td style="text-align: center; width: 50px; font-size: 120%;"><strong>UM</strong></td>#}
-{#                <td style="text-align: center; width: 60px; font-size: 120%;"><strong>CANT</strong></td>#}
-{#                <td style="text-align: center; width: 100px; font-size: 115%;"><strong>IMPORTE (CUP)</strong></td>#}
-{#                <td style="text-align: center; width: 95px; font-size: 115%;"><strong>IMPORTE (MLC)</strong></td>#}
-{#            </tr>#}
-{##}
-{#            </thead>#}
-{#            <tbody>#}
-{#            {% for equipos in equipos_prefactura %}#}
-{#                <tr>#}
-{#                    <td style="text-align: center; width: 120px; height: 25px; font-size: 120%;"><strong>#}
-{#                        {% if equipos.renovado %}R-{{ equipos.id }}{% else %}{{ equipos.id }}{% endif %}</strong></td>#}
-{#                    <td style="text-align: center; width: 300px; font-size: 120%;"><strong>#}
-{#                        {% if equipos.modelo %}{{ equipos.modelo }}{% else %}-{% endif %}#}
-{#                        {% if equipos.numero_referencia %} / {{ equipos.numero_referencia }}{% else %} /#}
-{#                            -{% endif %}</strong></td>#}
-{#                    <td style="text-align: center; width: 50px; font-size: 120%;"><strong>U</strong></td>#}
-{#                    <td style="text-align: center; width: 60px; font-size: 120%;"><strong>1</strong></td>#}
-{#                    <td style="text-align: center; width: 100px; font-size: 115%;">#}
-{#                        {% if tipo_pago == "CUP" %}#}
-{#                            {% if equipos.renovado == True %}#}
-{#                                <strong>{{ equipos.categoria.precio_renovado_cup }}.00</strong>#}
-{#                            {% elif equipos.renovado == False and equipos.equipo_ya_certificado == False %}#}
-{#                                <strong>{{ equipos.categoria.precio_cup }}.00</strong>#}
-{#                            {% elif equipos.equipo_ya_certificado == True %}#}
-{#                                <strong>{{ equipos.categoria.precio_equipo_ya_certificado_cup }}.00</strong>{% endif %}#}
-{#                        {% endif %}#}
-{#                    <td style="text-align: center; width: 95px; font-size: 115%;">#}
-{#                        {% if tipo_pago == "MLC" %}#}
-{#                            {% if equipos.renovado == True %}#}
-{#                                <strong>{{ equipos.categoria.precio_renovado_mlc }}.00</strong>#}
-{#                            {% elif equipos.renovado == False and equipos.equipo_ya_certificado == False %}#}
-{#                                <strong>{{ equipos.categoria.precio_mlc }}.00</strong>#}
-{#                            {% elif equipos.equipo_ya_certificado == True %}#}
-{#                                <strong>{{ equipos.categoria.precio_equipo_ya_certificado_mlc }}.00</strong>{% endif %}#}
-{#                        {% endif %}#}
-{#                    </td>#}
-{#                </tr>#}
-{#            {% endfor %}#}
-{#            <tr>#}
-{#                <td colspan="2" style="text-align: left; padding: 0.1em; height: 25px; font-size: 120%;">#}
-{#                    <strong>TOTAL</strong></td>#}
-{#                <td style="text-align: center; padding: 0.1em; width: 50px; font-size: 120%;"><strong>U</strong></td>#}
-{#                <td style="text-align: center; padding: 0.1em; width: 60px; font-size: 120%;">#}
-{#                    <strong>{{ cantidad }}</strong></td>#}
-{#                <td style="text-align: center; width: 100px; font-size: 120%;"><strong>#}
-{#                    {% if tipo_pago == "CUP" %}{{ total_cup }}.00{% endif %}</strong></td>#}
-{#                <td style="text-align: center;  width: 90px; font-size: 120%;"><strong>#}
-{#                    {% if tipo_pago == "MLC" %}{{ total_mlc }}.00{% endif %}</strong></td>#}
-{#            </tr>#}
-{#            </tbody>#}
-{##}
-{#        </table>#}
-{#    </div>#}
-{#    </div>#}
-<div id="app" class="col-11">
-    <div class="row">
-        <div class="col-2">
-            <img src="data:image/png;base64,{{ header }}"/>
-        </div>
-        <br>
-        <div class="col-10">
-            <h1>ESTUDIO50HABANA</h1>
-            <p>Calle Lugareño </p>
-            <p>Entre Carlos III y Almendares,</p>
-            <p>La Habana</p>
-        </div>
-
-    </div>
-
-    <hr/>
-
-    <div class="row fact-info mt-3">
-        <div class="col-3">
-            <h1>{{ title }}</h1>
-            <h5>Facturar a</h5>
-            <p>
-                {{ proyecto.usuario.first_name }} {{ proyecto.usuario.last_name }}
-            </p>
-        </div>
-        <div class="col-3">
-            <h5>Enviar a</h5>
-            <p>Luis Mario Perez Gonzalez </p>
-            <p>Calle Lugareño </p>
-            <p>Entre Carlos III y Almendares,</p>
-            <p>La Habana</p>
-        </div>
-        <div class="col-3">
-            <h5>N° de factura</h5>
-            <p>{{ proyecto.id }} </p>
-            <h5>Fecha</h5>
-            <p>{{ proyecto.fecha_estado_proyecto }} </p>
-        </div>
-    </div>
-    <hr/>
-
-    <div class="row my-5">
-        <table class="table table-borderless factura">
-            <thead>
-            <tr>
-                <th>Cant.</th>
-                <th>Descripcion</th>
-                <th>Precio Unitario</th>
-                <th>Importe</th>
-            </tr>
-            </thead>
-            <tbody>
-
-                {% for eventoequip in eventos %}
-                    <tr>
-                        <td>{{ eventoequip.equipamiento.cantidad }}</td>
-                        <td>{{ eventoequip.equipamiento.nombre }}</td>
-                        <td>{{ eventoequip.equipamiento.precio_mlc }}</td>
-                        <td>{{ eventoequip.eprecio_mlc_acumulado }}</td>
-                    </tr>
-                {% endfor %}
-
-
-            </tbody>
-            <tfoot>
-            <tr>
-                <th></th>
-                <th></th>
-                <th>Total Factura</th>
-                <th>EUR {{ proyecto.precio_aprobacion }}</th>
-            </tr>
-            </tfoot>
-        </table>
-    </div>
-
-    <div class="cond row">
-        <div class="col-12 mt-3">
-            <h4>Condiciones y formas de pago</h4>
-            <p>El pago se debe realizar en un plazo de 15 dias.</p>
-            <p>
-                Banco Metropolitano de La Habana
-                <br/>
-                IBAN: DO XX 0075 XXXX XX XX XXXX XXXX
-                <br/>
-                Código SWIFT: BPDODOSXXXX
-            </p>
+<div class="container-fluid">
+<div style="text-align: right" class="row">
+    <div class="col-md-12">
+        <div class="row text-center">
+            <div class="col-sm-6 col-6 col-xs-6 col-md-6 col-lg-6 col-xl-6">
+                <img src="data:image/png;base64,{{ header }}"/>
+            </div>
         </div>
     </div>
 </div>
 
+<div class="row fact-info mt-3">
+    <div class="col-3">
+        <h1>{{ title }}</h1>
+        <h5>Facturar a</h5>
+        <p>
+            {{ proyecto.usuario.first_name }} {{ proyecto.usuario.last_name }}
+        </p>
+    </div>
+    <div class="col-3">
+        <h5>Enviar a</h5>
+        <p>Luis Mario Perez Gonzalez </p>
+        <p>Calle Lugareño </p>
+        <p>Entre Carlos III y Almendares,</p>
+        <p>La Habana</p>
+    </div>
+    <div class="col-3">
+        <h5>N° de factura</h5>
+        <p>{{ proyecto.id }} </p>
+        <h5>Fecha</h5>
+        <p>{{ proyecto.fecha_estado_proyecto }} </p>
+    </div>
+</div>
+<hr/>
+
+<div class="row my-5">
+    <table class="table table-borderless factura">
+        <thead>
+        <tr>
+            <th>Cant.</th>
+            <th>Descripcion</th>
+            <th>Precio Unitario</th>
+            <th>Importe</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for eventoequip in eventos %}
+            <tr>
+                <td style="text-align: center">{{ eventoequip.equipamiento.cantidad }}</td>
+                <td style="text-align: center">{{ eventoequip.equipamiento.nombre }}</td>
+                <td style="text-align: center">{{ eventoequip.equipamiento.precio_mlc }}</td>
+                <td style="text-align: center">{{ eventoequip.precio_mlc_acumulado }}</td>
+            </tr>
+        {% endfor %}
+        {% for eventostalent in eventostalento %}
+            <tr>
+                <td style="text-align: center">1</td>
+                <td style="text-align: center">{{ eventostalent.actor.primer_nombre }} {{ eventostalent.actor.primer_apellido }} {{ eventostalent.actor.segundo_apellido }}</td>
+                <td style="text-align: center">{{ eventostalent.actor.precio_euro }}</td>
+                <td style="text-align: center">{{ eventostalent.precio_mlc_acumulado }}</td>
+            </tr>
+        {% endfor %}
+
+
+        </tbody>
+        <tfoot>
+        <tr>
+            <th></th>
+            <th></th>
+            <th>Total Factura</th>
+            <th>EUR {{ proyecto.precio_aprobacion }}</th>
+        </tr>
+        </tfoot>
+    </table>
+    <hr/>
+
+</div>
+<div class="cond row">
+    <div class="col-12 mt-3">
+        <h4>Condiciones y formas de pago</h4>
+        <p>El pago se debe realizar en un plazo de 15 dias.</p>
+        <p>
+            Banco Metropolitano de La Habana
+            <br/>
+            IBAN: DO XX 0075 XXXX XX XX XXXX XXXX
+            <br/>
+            Código SWIFT: BPDODOSXXXX
+        </p>
+    </div>
+</div>
+</div>
 </body>
 </html>

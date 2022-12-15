@@ -42,7 +42,7 @@
        - "traefik.http.routers.api.tls=true"
        - "traefik.http.routers.api.tls.certresolver=default-resolver"
       # Expose the api
-       - 'traefik.http.routers.api.rule=Host(`gw.72.167.50.223.nip.io`)'
+       - 'traefik.http.routers.api.rule=Host(`estudio50habana.com`)'
        - "traefik.http.routers.api.entrypoints=web, websecure"
 
    dozzle:

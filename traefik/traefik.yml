@@ -50,18 +50,17 @@ entryPoints:
       tls:
         certResolver: default-resolver
         domains:
-          #- main: "estudio50habana.com"
-          - main: "72.167.50.223.nip.io"
+          - main: "estudio50habana.com"
             sans:
-              - "gw.72.167.50.223.nip.io"
-              - "web.72.167.50.223.nip.io"
+              - "gw.estudio50habana.com"
+              - "web.estudio50habana.com"
               
         
 # certificate resolvers
 certificatesResolvers:
   default-resolver:
     acme:
-      email: rsm930123@gmail.com
+      email: cert@estudio50habana.com
       storage: /ssl-certs/acme.json
       httpChallenge:
         entryPoint: web

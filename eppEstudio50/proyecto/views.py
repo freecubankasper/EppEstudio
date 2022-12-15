@@ -10,6 +10,7 @@ from django.views.generic import ListView, CreateView, UpdateView, TemplateView,
 from core.utiles.permission_required import PermissionRequiredMixin
 from core.utiles.tests import send_email, send_email_proyecto
 from equipo_proteccion_personal.utiles.pdfs import to_base64
+from evento.models.evento_actor import EventoActor
 from evento.models.evento_equipamiento import EventoEquipamiento
 from llamado.models.llamado_proyecto import LlamadoProyecto
 from nomencladores.models.categoria import Categoria
@@ -266,6 +267,8 @@ class ProyectoPDFView(PermissionRequiredMixin, View):
         proyecto = Proyecto.objects.filter(id=proyecto_id).first()
         llamados = LlamadoProyecto.objects.filter(proyecto_id=proyecto_id)
         eventos = Proyecto.objects.filter(id=proyecto_id).order_by('id')
+        eventostalento = EventoActor.objects.filter(llamado__proyecto=proyecto)
+
         template_path = 'pdfs/eventos_proyecto_pdf.html'
         if not request.user.has_perm('evento.export_eventosproyecto'):
             raise PermissionDenied
@@ -276,6 +279,7 @@ class ProyectoPDFView(PermissionRequiredMixin, View):
                 'proyecto': proyecto,
                 'llamados': llamados,
                 'eventos': eventos,
+                'eventostalento': eventostalento,
                 'header': to_base64(
                     os.path.join(settings.BASE_DIR, 'static', 'assets', 'base', 'img', 'layout', 'logos',
                                  'logo-5negrohabana.png')),
@@ -303,6 +307,7 @@ class FacturaProyectoPDFView(PermissionRequiredMixin, View):
         proyecto = Proyecto.objects.filter(id=proyecto_id).first()
         llamados = LlamadoProyecto.objects.filter(proyecto_id=proyecto_id)
         eventos = EventoEquipamiento.objects.filter(llamado__proyecto=proyecto)
+        eventostalento = EventoActor.objects.filter(llamado__proyecto=proyecto)
         template_path = 'pdfs/factura_proyecto.html'
         if not request.user.has_perm('evento.export_eventosproyecto'):
             raise PermissionDenied
@@ -312,6 +317,7 @@ class FacturaProyectoPDFView(PermissionRequiredMixin, View):
                 'title': title,
                 'proyecto': proyecto,
                 'eventos': eventos,
+                'eventostalento': eventostalento,
                 'header': to_base64(
                     os.path.join(settings.BASE_DIR, 'static', 'assets', 'base', 'img', 'layout', 'logos',
                                  'logo-5negrohabana.png')),
