@@ -1,0 +1,246 @@
+{% load static %}
+{% block content %}
+
+
+<div class="modal fade c-content-login-form" id="forget-password-form" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content c-square">
+            <div class="modal-header c-no-border">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h3 class="c-font-24 c-font-sbold">Password Recovery</h3>
+                <p>To recover your password please fill in your email address</p>
+                <form>
+                    <div class="form-group">
+                        <label for="forget-email" class="hide">Email</label>
+                        <input type="email" class="form-control input-lg c-square" id="forget-email"
+                               placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="c-btn-icon c-btn-square c-font-sbold"
+                                style="background-color: red;font-size: 12px;   line-height: 14px;">Submit
+                        </button>
+                        <a href="javascript:;" class="c-btn-forgot" data-toggle="modal" data-target="#login-form"
+                           data-dismiss="modal">Back To Login</a>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer c-no-border">
+                <span class="c-text-account">Don't Have An Account Yet ?</span>
+                <a href="javascript:;" data-toggle="modal" data-target="#signup-form" data-dismiss="modal"
+                   class="btn c-btn-dark-1 btn c-btn-uppercase c-btn-bold c-btn-slim c-btn-border-2x c-btn-square c-btn-signup">Signup!</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade c-content-login-form" id="signup-form" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content c-square">
+            <div class="modal-header c-no-border">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h3 class="c-font-24 c-font-sbold">Create An Account</h3>
+                <p>Please fill in below form to create an account with us</p>
+                <form class="kt-form" method="GET" action="{% url 'registrar_usuario_front' %}"
+                      id="form_crear_cuenta">{% csrf_token %}
+                    <div class="form-group">
+                        <label class="hide">First Name</label>
+                        <input type="text" class="form-control input-lg c-square" name="first_name" id="first_name"
+                               placeholder="First Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-username" class="hide">Last Name</label>
+                        <input type="text" class="form-control input-lg c-square"  name="last_name" id="last_name"
+                               placeholder="Last Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-username" class="hide">Email</label>
+                        <input type="email" class="form-control input-lg c-square"  name="email" id="email"
+                               placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-username" class="hide">User</label>
+                        <input type="text" class="form-control input-lg c-square"  name="user" id="user"
+                               placeholder="User">
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-username" class="hide">Phone</label>
+                        <input type="text" class="form-control input-lg c-square"  name="phone" id="phone"
+                               placeholder="Phone">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signup-country" class="hide">Country</label>
+                        <select style="display: block; width: 100%" name="pais"
+                                class="form-control input-lg c-square"
+                                title="Country" required>
+                            <option value="">Country</option>
+                            {% for pais in paises %}
+                                <option value="{{ pais.id }}"
+                                        {% if pais.id|striptags == request.GET.pais %}selected{% endif %}>{{ pais.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-username" class="hide">City</label>
+                        <input type="text" class="form-control input-lg c-square"  name="ciudad" id="ciudad"
+                               placeholder="Ciudad">
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-username" class="hide">Password</label>
+                        <input type="password" class="form-control input-lg c-square"  name="password" id="password"
+                               placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn c-theme-btn btn-md   c-btn-square c-btn-login"
+                                style="background: white;color: black;border-color: black;">Sign Up
+                        </button>
+
+                        <a href="javascript:;" class="c-action-btn btn " style="margin-left: 70px;" data-toggle="modal"
+                           data-target="#login-form" data-dismiss="modal">Back To Login</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade c-content-login-form" id="proyect-form" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content c-square">
+            <div class="modal-header c-no-border">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img src="{% static 'assets/base/img/layout/logos/logo-5negrohabana.png' %}" alt="Estudio50Habana"
+                     class="c-desktop-logo" style="max-height: 65px;">
+                <br>
+                <br>
+                {#                <h3 class="c-font-24 c-font-sbold" style="color: #666;">Create your project</h3>#}
+                <p style="color: #666;">Please fill out the form below so we can start building your project</p>
+                <form class="kt-form" method="POST" action="{% url 'registrar_proyecto' %}"
+                      id="form_proyecto">{% csrf_token %}
+                    <div class="form-group">
+                        <label for="id_proyecto_nombre" style="font-size: medium">Name <h6
+                                style="color: red;display: inline">*</h6></label>
+                        <input type="text" id="id_proyecto_nombre" name="proyecto_nombre"
+                               class="form-control input-lg c-square" placeholder="Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_proyecto_cliente" style="font-size: medium">Client <h6
+                                style="color: red;display: inline">*</h6></label>
+                        <input type="text" id="id_proyecto_cliente" name="proyecto_cliente"
+                               class="form-control input-lg c-square" placeholder="Client">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_categoria" style="font-size: medium">Type <h6 style="color: red;display: inline">
+                            *</h6></label>
+                        <select style="display: block; width: 100%" name="categoria"
+                                class="form-control input-lg c-square"
+                                title="Seleccione una categoria" required>
+                            <option value="">Type</option>
+                            {% for categoria in categorias %}
+                                <option value="{{ categoria.id }}"
+                                        {% if categoria.id|striptags == request.GET.categoria %}selected{% endif %}>{{ categoria.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_fecha_inicio" style="font-size: medium">Start Date <h6
+                                style="color: red;display: inline">*</h6></label>
+                        <input type="date" class="form-control input-lg c-square" name="id_fecha_inicio"
+                               id="id_fecha_inicio" placeholder="Start Date">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_fecha_fin" style="font-size: medium">End Date <h6
+                                style="color: red;display: inline">*</h6></label>
+                        <input type="date" class="form-control input-lg c-square" name="id_fecha_fin" id="id_fecha_fin"
+                               placeholder="End Date">
+                    </div>
+                    <br>
+                    <button type="submit" class="btn c-theme-btn btn-md   c-btn-square c-btn-login"
+                            onclick="$('#form_proyecto').submit();"
+                            style="background: white;color: black;border-color: black;">CREATE YOUR PROJECT
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade c-content-login-form" id="login-form" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content c-square">
+            <div class="modal-header c-no-border">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img src="{% static 'assets/base/img/layout/logos/logo-5negrohabana.png' %}" alt="Estudio50Habana"
+                     class="c-desktop-logo" style="max-height: 65px;">
+                <br>
+                <h3 class="c-font-24 c-font-sbold">Welcome!</h3>
+                <p>Let's make today a great day!</p>
+                <form class="kt-form" method="post" action="{% url 'iniciar_sesion_cliente' %}">{% csrf_token %}
+                    <div class="form-group">
+                        <input type="text" class="form-control input-lg c-square" placeholder="Email"
+                               name="username" id="id_{{ form.username.name }}"
+                               autocomplete="off">
+                    </div>
+                    <div class="login_field_error">
+                        {% for error in form.username.errors %}
+                            <small id="login-input-error" class="login-input-error text-danger">
+                                {{ error }}
+                            </small>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control input-lg c-square" type="password" id="id_{{ form.password.name }}"
+                               placeholder="Password" name="password">
+                        <div style="margin-top:15px;">
+                            <input style="margin-left:20px;" type="checkbox" id="mostrar_contrasena"
+                                   title="clic para mostrar contraseña"/>
+                            &nbsp;&nbsp;Mostrar Contraseña
+                        </div>
+                    </div>
+                    <div class="login_field_error">
+                        {% for error in form.password.errors %}
+                            <small id="login-input-error" class="login-input-error text-danger">
+                                {{ error }}
+                            </small>
+                        {% endfor %}
+                    </div>
+                    <div class="login_field_error">
+                        {% for error in form.non_field_errors %}
+                            <small id="login-error" class="text-danger">
+                                {{ error }}
+                            </small>
+                        {% endfor %}
+                    </div>
+                    <div class="kt-login__actions">
+
+                        <button type="submit" class="btn c-theme-btn btn-md   c-btn-square c-btn-login"
+                                style="background: white;color: black;border-color: black;">Login
+                        </button>
+                        <a href="javascript:;" class="c-action-btn btn " style="margin-left: 70px;" data-toggle="modal"
+                           data-target="#forget-password-form" data-dismiss="modal">Forgot Your Password ?</a>
+
+                    </div>
+                    <input type="hidden" name="next" value="{{ next }}">
+
+                </form>
+                <div class="modal-footer c-no-border">
+                    <span class="c-text-account">Don't Have An Account Yet ?</span>
+                    <a href="javascript:;" data-toggle="modal" data-target="#signup-form" data-dismiss="modal"
+                       class="btn c-btn-dark-1 btn c-btn-slim c-btn-square c-btn-signup"
+                       style="background: white;color: black;border-color: black;">Sign up!</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

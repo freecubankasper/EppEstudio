@@ -1,0 +1,50 @@
+{% load static %}
+{% block content %}
+
+<ul class="nav navbar-nav c-theme-nav-right">
+
+                        {% if request.user.is_authenticated %}
+                            <li class="c-search-toggler-wrapper"><a href="#" class="c-btn-icon "
+                                                                    style="font-size: 12px"><i
+                                    class="icon-user"></i> {{ user }}</a></li>
+                            <li class="c-search-toggler-wrapper">
+                                <a href="{% url 'cerrar_sesion' %} " class="c-btn-icon">
+                                    <i class="icon-logout"></i>
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if not request.user.is_authenticated %}
+                            <li class="c-search-toggler-wrapper">
+                                <a href="#" data-toggle="modal" data-target="#login-form" class="c-btn-icon "><i
+                                        class="icon-user"></i></a>
+                            </li>
+                        {% endif %}
+                        <li class="c-search-toggler-wrapper">
+                            <a href="#" class="c-btn-icon c-search-toggler"><i class="fa fa-search"></i></a>
+                        </li>
+                        {% if request.user.is_authenticated %}
+                            <li class="c-search-toggler-wrapper">
+                                {% if request.user.proyectosbool == 0 %}
+
+                                    <a href="" class="c-btn-icon c-btn-square c-font-sbold" data-toggle="modal"
+                                       data-target="#proyect-form"
+                                       style="background-color: red;font-size: 12px;   line-height: 14px;">CREATE PROJECT</a>
+                                {% endif %}
+                                {% if request.user.proyectosbool > 0 %}
+
+                                    <a href="{% url 'proyects' %} " class="c-btn-icon c-btn-square c-font-sbold"
+                                       style="background-color: red;font-size: 12px;   line-height: 14px;">MY PROJECTS</a>
+                                {% endif %}
+                            </li>
+
+                        {% endif %}
+                        {% if not request.user.is_authenticated %}
+                            <li class="c-search-toggler-wrapper">
+                                <a href="" class="c-btn-icon c-btn-square c-font-sbold" data-toggle="modal"
+                                   data-target="#login-form"
+                                   style="background-color: red;font-size: 12px;   line-height: 14px;">CREATE PROJECT</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+
+{% endblock %}
